@@ -1,6 +1,6 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg=" 正在测试gitlab jenkins自动化构建后部署的情况，出现此页面即OK！"/>
+  <HelloWorld msg=" 20230128 18:13 正在测试gitlab jenkins自动化构建后部署的情况，出现此页面即OK！"/>
 </template>
 
 <script>
