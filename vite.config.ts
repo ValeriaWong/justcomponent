@@ -5,13 +5,21 @@ import StylelintPlugin from 'vite-plugin-stylelint';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), eslintPlugin(), StylelintPlugin({ fix: true })],
+  plugins: [vue(), eslintPlugin(), StylelintPlugin()],
   // server: {
   //   host: 'localhost',
   //   port: 80,
   //   open: true,
   // },
   server: {
-    host: "0.0.0.0",
+    hmr: true,
+    host: '0.0.0.0',
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "./src/styles/index.scss";',
+      },
+    },
   },
 });
