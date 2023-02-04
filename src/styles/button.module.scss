@@ -1,0 +1,84 @@
+@charset "UTF-8";
+@import './common/var.scss';
+
+@mixin button-wrapper {
+  height: 36px;
+  font-size: $--font-size-medium;
+  color: rgb(186, 88, 88);
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid transparent;
+  padding: 0 10px;
+  cursor: pointer;
+  &-primary {
+    background-color: $--color-primary;
+    // focus,hover的时，背景色变浅
+    &:focus,
+    &:hover {
+      background-color: rgba($--color-primary, 0.7);
+    }
+    &:active {
+    // active时，背景色变浅，且与focus，hover做区分
+      background-color: rgba($--color-primary, 0.9);
+    }
+    // button.scss --- 省略部分代码 ---
+  }
+
+  &-info {
+    background-color: $--color-info;
+    border-color: #ddd;
+    color: $--font-color-main;
+    &:focus,
+    &:hover {
+      color: rgba($--font-color-main, 0.7);
+    }
+    &:active {
+      color: rgba($--font-color-main, 0.9);
+    }
+  }
+  &-success {
+    background-color: $--color-success;
+    border-color: $--color-success;
+    &:focus,
+    &:hover {
+      background-color: rgba($--color-success, 0.7);
+    }
+    &:active {
+      background-color: rgba($--color-success, 0.9);
+    }
+  }
+  &-warning {
+    background-color: $--color-warning;
+    border-color: $--color-warning;
+    &:focus,
+    &:hover {
+      background-color: rgba($--color-warning, 0.7);
+    }
+    &:active {
+      background-color: rgba($--color-warning, 0.9);
+    }
+  }
+  &-text {
+    background-color: $--color-text;
+    border-color: $--color-text;
+    color: $--color-primary;
+    &:focus,
+    &:hover {
+      color: rgba($--color-primary, 0.7);
+    }
+    &:active {
+      color: rgba($--color-primary, 0.9);
+    }
+  }
+  &-error {
+    background-color: $--color-error;
+    border-color: $--color-error;
+    &:focus,
+    &:hover {
+      background-color: rgba($--color-error, 0.7);
+    }
+    &:active {
+      background-color: rgba($--color-error, 0.9);
+    }
+  }
+}

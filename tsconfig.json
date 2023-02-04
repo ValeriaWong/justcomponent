@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-  	// 指定es的目标版本
+    // 指定es的目标版本
     "target": "esnext",
     "useDefineForClassFields": true,
     // "isolatedModules": true,
