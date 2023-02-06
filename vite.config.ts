@@ -5,6 +5,7 @@ import StylelintPlugin from 'vite-plugin-stylelint';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [vue(), eslintPlugin(), StylelintPlugin()],
   // server: {
   //   host: 'localhost',
