@@ -8,10 +8,10 @@
       <avatar :src="imgUrl" size="small" alt="小头像" />
       <avatar :src="imgUrl" size="default" />
       <avatar :src="imgUrl" size="large" />
-      <avatar :src="imgUrl" :size="100" isRotate="no" />
+      <avatar :src="imgUrl" :size="100" />
     </div>
 
-    <div class="c2">
+    <!-- <div class="c2">
       <avatar :src="imgUrl" size="small" shape="square" />
       <avatar :src="imgUrl" size="default" shape="square" />
       <avatar :src="imgUrl" size="large" shape="square" />
@@ -37,7 +37,7 @@
       <avatar size="default" color="white" background-color="gray">Hi</avatar>
       <avatar size="large" background-color="gray">Hi</avatar>
       <avatar :size="100" background-color="gray">Hi</avatar>
-    </div>
+    </div> -->
   </div>
 
   <!-- <div class="Button_test">
