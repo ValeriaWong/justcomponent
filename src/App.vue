@@ -8,7 +8,7 @@
       <avatar :src="imgUrl" size="small" alt="小头像" />
       <avatar :src="imgUrl" size="default" />
       <avatar :src="imgUrl" size="large" />
-      <avatar :src="imgUrl" :size="100" />
+      <avatar :src="imgUrl" :size="100" isRotated="isRotated" />
     </div>
 
     <!-- <div class="c2">
