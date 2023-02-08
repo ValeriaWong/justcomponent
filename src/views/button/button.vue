@@ -1,16 +1,23 @@
 <!-- // button.vue -->
 <template>
-  <button
+  <!-- <button
     class="simple-button"
     :class="[type ? `simple-button--${type} text-color` : '']"
   >
     <span><slot>这是style样式按钮</slot></span>
-  </button>
+  </button> -->
   <button
     class="my-button"
     :class="[type ? `my-button-${type} text-color` : '']"
   >
-    <span><slot>这是使用scss文件的button</slot></span>
+    <span v-if="loading"
+      ><img
+        src="../../assets/loading.png"
+        alt="loading"
+        
+      /><!--  put loading icon to this section --></span
+    >
+    <span v-else><slot>这是使用scss文件的button</slot></span>
   </button>
   <br />
 </template>
@@ -25,8 +32,10 @@ defineProps({
     type: String,
     default: 'primary',
   },
+  loading: {
+    type: Boolean, // delete default value
+  },
 });
-
 // export default {
 //   name: "ButtonPrimary",
 //   data() {
@@ -135,7 +144,7 @@ defineProps({
   background-color: rgb(233 56 56);
 }
 
-.text-color {
-  color: rgb(134, 84, 84);
-}
+// .text-color {
+//   color: rgb(250, 250, 250);
+// }
 </style>

@@ -1,84 +1,140 @@
 @charset "UTF-8";
-@import './common/var.scss';
+@import './common/themes.module.scss';
 
 @mixin button-wrapper {
   height: 36px;
   font-size: $--font-size-medium;
-  color: rgb(186, 88, 88);
+  color: $--font-color-main; //文本主色
   border-radius: 4px;
   outline: none;
-  border: 1px solid transparent;
+  border: 1px dotted transparent;
   padding: 0 10px;
   cursor: pointer;
+
   &-primary {
+    color: $--font-color-primary;
     background-color: $--color-primary;
-    // focus,hover的时，背景色变浅
+    // focus,hover的时，背景色变深
+    img {
+      width: 66%; height: 75%; object-fit: contain;
+      filter: brightness(600%);
+      transform: rotate(90deg);
+    }
     &:focus,
+    &:focus-visible {
+      background-color: rgba($--color-hover, 1);
+      // border: 1px dashed ;
+      outline: 1px dashed; //使用outline不占据空间，不影响按钮尺寸和位置
+    }
     &:hover {
-      background-color: rgba($--color-primary, 0.7);
+      background-color: rgba($--color-hover, 1);
     }
     &:active {
-    // active时，背景色变浅，且与focus，hover做区分
-      background-color: rgba($--color-primary, 0.9);
+      background-color: rgba($--color-click, 1);
+      // border: 1px transparent;
+    }
+    &:visited {
+      //loading状态
+      background-color: transparent;
+    }
+    &:disabled {
+      background-color: rgba($--color-disabled, 1);
+      color: $--font-color-disabled;
     }
     // button.scss --- 省略部分代码 ---
   }
 
-  &-info {
-    background-color: $--color-info;
-    border-color: #ddd;
+  &-secondary {
+    background-color: $--color-light-background;
+    border: 1px solid $--border-color-secondary;
+    color: $--color-main;
+    img {
+      width: 66%; height: 75%; object-fit: contain;
+      transform: rotate(90deg);
+    }
+    &:focus,
+    &:hover {
+      background-color: rgba($--color-secondary-hover, 1);
+      outline: none;
+    }
+    &:active {
+      background-color: rgba($--color-secondary, 0.75);
+    }
+    &:disabled {
+      background-color: rgba($--color-disabled, 1);
+      color: $--font-color-disabled;
+    }
+  }
+  &-revert {
+    background-color: #ffffff;
+    border:1px solid $--color-disabled;
     color: $--font-color-main;
+    img {
+      width: 66%;
+      height: 75%; 
+      object-fit: contain;
+      transform: rotate(90deg);
+    }
     &:focus,
     &:hover {
-      color: rgba($--font-color-main, 0.7);
+      
+      border: 1px solid $--border-color-secondary;
+      color:$--border-color-secondary;
+      outline: none;
     }
     &:active {
-      color: rgba($--font-color-main, 0.9);
+      color: rgba($--font-color-main, 1);
+    }
+    &:disabled {
+      background-color: rgba($--color-disabled, 1);
+      color: $--font-color-disabled;
     }
   }
-  &-success {
-    background-color: $--color-success;
-    border-color: $--color-success;
+  // &-subtle {
+  //   background-color: $--color-subtle;
+  //   border-color: $--color-subtle;
+  //   &:focus,
+  //   &:hover {
+  //     background-color: rgba($--color-subtle, 0.50);
+  //   }
+  //   &:active {
+  //     background-color: rgba($--color-subtle, 0.75);
+  //   }
+  // }
+
+  // &-text {
+  //   background-color: $--color-text;
+  //   border-color: $--color-text;
+  //   color: $--color-primary;
+  //   &:focus,
+  //   &:hover {
+  //     color: rgba($--color-primary, 0.50);
+  //   }
+  //   &:active {
+  //     color: rgba($--color-primary, 0.75);
+  //   }
+  // }
+
+  // &-button-group {
+  //   background-color: $--color-button-group;
+  //   border-color: $--color-button-group;
+  //   &:focus,
+  //   &:hover {
+  //     background-color: rgba($--color-button-group, 0.50);
+  //   }
+  //   &:active {
+  //     background-color: rgba($--color-button-group, 0.75);
+  //   }
+  // }
+  &-danger {
+    background-color: $--color-danger;
+    border-color: $--color-danger;
     &:focus,
     &:hover {
-      background-color: rgba($--color-success, 0.7);
+      background-color: rgba($--color-danger, 0.50);
     }
     &:active {
-      background-color: rgba($--color-success, 0.9);
-    }
-  }
-  &-warning {
-    background-color: $--color-warning;
-    border-color: $--color-warning;
-    &:focus,
-    &:hover {
-      background-color: rgba($--color-warning, 0.7);
-    }
-    &:active {
-      background-color: rgba($--color-warning, 0.9);
-    }
-  }
-  &-text {
-    background-color: $--color-text;
-    border-color: $--color-text;
-    color: $--color-primary;
-    &:focus,
-    &:hover {
-      color: rgba($--color-primary, 0.7);
-    }
-    &:active {
-      color: rgba($--color-primary, 0.9);
-    }
-  }
-  &-error {
-    background-color: $--color-error;
-    border-color: $--color-error;
-    &:focus,
-    &:hover {
-      background-color: rgba($--color-error, 0.7);
-    }
-    &:active {
-      background-color: rgba($--color-error, 0.9);
+      background-color: rgba($--color-danger, 0.75);
     }
   }
 }
