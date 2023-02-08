@@ -1,7 +1,17 @@
 <template>
-  <div class="input_test"></div>
+  <div class="input_test">
+    <!-- <MyInput></MyInput> -->
+    <my-input v-model="value"></my-input>
+    <my-input disabled></my-input>
+    <my-input showPassword></my-input>
+    <my-input clearable></my-input>
+    <my-input v-model="value1" type="textarea"></my-input>
+    <my-input readonly placeholder="输入"></my-input>
+    <my-input placeholder="输入"></my-input>
+    <my-input placeholder="输入" type="textarea"></my-input>
+  </div>
 
-  <div class="avatar_test">
+  <!-- <div class="avatar_test">
     <div class="c1">
       <avatar :src="imgUrl" size="small" alt="小头像" />
       <avatar :src="imgUrl" size="default" />
@@ -36,16 +46,16 @@
       <avatar size="large" background-color="gray">Hi</avatar>
       <avatar :size="100" background-color="gray">Hi</avatar>
     </div>
-  </div>
+  </div> -->
 
-  <div class="Button_test">
+  <!-- <div class="Button_test">
     <ButtonPrimary></ButtonPrimary>
     <ButtonPrimary type="primary">主要按钮</ButtonPrimary>
     <ButtonPrimary type="info">信息按钮</ButtonPrimary>
     <ButtonPrimary type="success">成功按钮</ButtonPrimary>
     <ButtonPrimary type="warning">警告按钮</ButtonPrimary>
     <ButtonPrimary type="danger">危险按钮</ButtonPrimary>
-  </div>
+  </div> -->
 </template>
 
 <style lang="scss" scoped>
@@ -72,7 +82,14 @@ nav {
 </style>
 
 <script lang="ts" setup>
-import ButtonPrimary from './views/button/button.vue';
-import avatar from './views/avatar/avatar.vue';
-import imgUrl from './assets/image/avatar.png';
+// import ButtonPrimary from './views/button/button.vue';
+
+// import avatar from './views/avatar/avatar.vue';
+// import imgUrl from './assets/image/avatar.png';
+
+import { ref } from 'vue';
+import MyInput from './views/input/input.vue';
+
+const value = ref('请输入');
+const value1 = ref('输入文本');
 </script>

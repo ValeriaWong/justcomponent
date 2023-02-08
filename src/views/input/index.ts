@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { computed, ref } from 'vue';
 
 export const inputProps = {
@@ -22,12 +23,6 @@ export const inputProps = {
   type: {
     type: String,
     default: 'text',
-  },
-  suffixIcon: {
-    type: [String, Object],
-  },
-  prefixIcon: {
-    type: [String, Object],
   },
   readonly: {
     type: Boolean,
@@ -69,8 +64,6 @@ export const useInput = (props: any, emits: any) => {
     'my-input': type.value !== 'textarea',
     'my-textarea': type.value === 'textarea',
     'my-input-suffix': showPassword.value || clearable.value,
-    //   showPassword.value || clearable.value || props.suffixIcon,
-    // "my-input-prefix": props.prefixIcon,
   }));
 
   const nativeInputValue = computed(() =>
@@ -86,8 +79,6 @@ export const useInput = (props: any, emits: any) => {
     type,
     passwordVisible,
     placeholder,
-    suffixIcon: props.suffixIcon,
-    prefixIcon: props.prefixIcon,
     readonly,
     nativeInputValue,
   };

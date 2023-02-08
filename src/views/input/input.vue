@@ -11,9 +11,9 @@
         autocomplete="off"
         :readonly="readonly"
         :value="nativeInputValue"
-        @input="handleChange"
-        @blur="handleBlur"
-        @focus="handleFocus"
+        @input="onChange"
+        @blur="onBlur"
+        @focus="onFocus"
         :placeholder="placeholder"
       />
       <!-- prefix slot -->
@@ -21,25 +21,24 @@
 
       <!-- suffix slot -->
       <span class="my-input-suffix-icon">
-        <img src="searchUrl" alt="" />
+        <!-- <img class="suffix-icon-img" src="../../assets/image/search.png" alt="" /> -->
+
         <!-- clearable -->
         <div
           class="close-icon"
           v-if="clearable && nativeInputValue.length > 0 && !disabled"
-          @click="hanldeClear"
+          @click="onClear"
         >
-          <img src="closeUrl" alt="" />
+          <!-- <img v-if="clearable && nativeInputValue.length > 0 && !disabled" class="close-icon-img" src="../../assets/image/close.png" alt="" /> -->
         </div>
 
         <!-- password -->
         <div
           class="password-icon"
           v-if="showPassword && !disabled"
-          @click="handlePasswordVisible"
+          @click="onPasswordVisible"
         >
-          <my-icon :size="18">
-            <Eye />
-          </my-icon>
+          <!-- <img v-if="showPassword && !disabled" class="password-icon-img" src="../../assets/image/eye.png" alt="" /> -->
         </div>
       </span>
     </template>
@@ -53,9 +52,9 @@
         autocomplete="off"
         :placeholder="placeholder"
         :value="nativeInputValue"
-        @input="handleChange"
-        @blur="handleBlur"
-        @focus="handleFocus"
+        @input="onChange"
+        @blur="onBlur"
+        @focus="onFocus"
       />
     </template>
   </div>
@@ -65,10 +64,6 @@
 import { computed, ref, nextTick } from 'vue';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { inputEmit, inputProps, useInput } from './index';
-// eslint-disable-next-line no-unused-vars
-import searchUrl from '../../assets/image/search.png';
-// eslint-disable-next-line no-unused-vars
-import closeUrl from '../../assets/image/close.png';
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement;
 
@@ -90,24 +85,24 @@ const input = ref<HTMLInputElement>();
 const textarea = ref<HTMLTextAreaElement>();
 const inputOrTextarea = computed(() => input.value || textarea.value);
 
-const handleChange = (e: Event) => {
+const onChange = (e: Event) => {
   const { value } = e.target as TargetElement;
   if (value === nativeInputValue.value) return;
   emits('update:modelValue', value);
   emits('input', value);
 };
 
-const hanldeClear = () => {
+const onClear = () => {
   emits('update:modelValue', '');
   emits('input', '');
   emits('clear', '');
 };
 
-const handleBlur = (e: any) => {
+const onBlur = (e: any) => {
   emits('blur', e);
 };
 
-const handleFocus = (e: any) => {
+const onFocus = (e: any) => {
   emits('focus', e);
 };
 
@@ -127,7 +122,7 @@ const blur = () => {
   });
 };
 
-const handlePasswordVisible = () => {
+const onPasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value;
 };
 
@@ -159,20 +154,18 @@ export default {
 </script>
 
 <style lang="scss">
-$active-color: #18a058;
+$active-color: #87ceeb;
+// https: //encycolorpedia.cn/ 可查各种颜色
 
 .my-input {
+  margin: 1px;
   width: 100%;
   cursor: pointer;
   position: relative;
 
-  &.my-input-prefix .my-input-inner {
-    padding-left: 30px;
-  }
-
-  &.my-input-suffix .my-input-inner {
-    padding-right: 30px;
-  }
+  // &.my-input-suffix-icon  {
+  //   padding-right: 30px;
+  // }
 
   &-inner {
     position: relative;
@@ -190,18 +183,19 @@ $active-color: #18a058;
     font-size: inherit;
     outline: none;
     padding: 0 15px;
-    color: lightgreen;
+    //适合白色背景，后面可以调整，比如黑色背景选白字
+    color: black;
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &:hover {
-      border-color: #c0c4cc;
+      border-color: #87cefa;
     }
 
     &:active,
     &:focus {
       outline: none;
       border-color: $active-color;
-      box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.3);
+      box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
     }
 
     &::placeholder {
@@ -223,24 +217,6 @@ $active-color: #18a058;
         box-shadow: none;
       }
     }
-  }
-
-  .my-input-suffix-icon,
-  .my-input-prefix-icon {
-    position: absolute;
-    bottom: 0;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .my-input-suffix-icon {
-    right: 5px;
-  }
-
-  .my-input-prefix-icon {
-    left: 5px;
   }
 
   .close-icon,
@@ -284,7 +260,7 @@ $active-color: #18a058;
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
-    color: #606266;
+    color: black;
     background-color: #fff;
     background-image: none;
     border: 1px solid #dcdfe6;
@@ -292,14 +268,14 @@ $active-color: #18a058;
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &:hover {
-      border-color: #c0c4cc;
+      border-color: #87cefa;
     }
 
     &:active,
     &:focus {
       outline: none;
       border-color: $active-color;
-      box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.3);
+      box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
     }
 
     &::placeholder {
