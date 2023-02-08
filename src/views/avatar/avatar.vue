@@ -91,50 +91,47 @@ $default-background: rgb(34, 167, 242);
   font-size: $font-size;
   color: $white;
 
-  transition: all 2s;
-  //实现头像旋转
-  // @if isRotate == 'yes' {
-  //   transition: all 2s;
-  // }
-
   > img {
     width: 100%;
     height: 100%;
   }
-}
 
-.avatar:hover {
-  transform: rotate(360deg);
-}
-
-.avatar--default {
-  width: $default-size;
-  height: $default-size;
-}
-
-.avatar--small {
-  width: $small-size;
-  height: $small-size;
-}
-
-.avatar--large {
-  width: $large-size;
-  height: $large-size;
-}
-
-.avatar--circle {
-  border-radius: 100%;
-
-  > img {
-    border-radius: 100%;
+  //class添加"avatar--isRotated" 实现头像旋转
+  &--isRotated {
+    transition: all 2s;
   }
-}
+  &:hover {
+    transform: rotate(360deg);
+  }
 
-.avatar--square {
-  border-radius: 10px;
+  //尺寸大小
+  &--default {
+    width: $default-size;
+    height: $default-size;
+  }
+  &--small {
+    width: $small-size;
+    height: $small-size;
+  }
+  &--large {
+    width: $large-size;
+    height: $large-size;
+  }
 
-  > img {
+  //圆还是方
+  &--circle {
+    border-radius: 100%;
+
+    > img {
+      border-radius: 100%;
+    }
+  }
+  &--square {
     border-radius: 10px;
+
+    > img {
+      border-radius: 10px;
+    }
   }
 }
 </style>
