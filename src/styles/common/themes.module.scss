@@ -1,0 +1,46 @@
+@import './var.module.scss';
+
+// $themes: (
+//  "classic": (
+$--color-primary: $B-50;
+$--color-main: $B-50;
+$--color-normal: $B-50;
+$--color-standard: $B-50;
+$--color-link: $B-50;
+$--color-tab-select: $B-50;
+$--color-hover: $B-60;
+$--color-click: $B-40;
+$--color-light-background: $B-10;
+$--color-disabled: $DG-50;
+
+$--color-dividing-line: $DG-50;
+$--color-background: $DG-30;
+$--color-table-selected: $DG-20;
+$--color-menu-selected: $DG-20;
+
+$--font-color-primary:$DG-10;
+$--font-color-disabled: $DG-60;
+$--font-color-main: $DG-100;
+$--font-color-secondary: $DG-90;
+$--font-color-thirdary: $DG-80;
+$--font-color-info: $DG-80;
+$--font-color-icon: $DG-70;
+$--font-color-button: $DG-20;
+
+$--controler-border: $DG-60;
+$--controler-info: $DG-60;
+$--controler-forbbiden: $DG-60;
+//   );
+// );
+
+//  "secondary": (
+$--color-secondary: $B-10;
+$--color-secondary-hover: $B-20;
+$--border-color-secondary:$B-50;
+
+$--color-error: #a2b9bc;
+
+$--font-size-medium: 14px;
+
+
+$--color-danger:red;
