@@ -2,21 +2,58 @@
 @import './common/themes.module.scss';
 
 @mixin button-wrapper {
-  height: 36px;
   font-size: $--font-size-medium;
   color: $--font-color-main; //文本主色
-  border-radius: 4px;
   outline: none;
   border: 1px dotted transparent;
   padding: 0 10px;
   cursor: pointer;
+
+  //控制大小
+  &-L {
+    width: auto;
+    height: 40px;
+    font-size: $--font-size-large;
+  }
+  &-M {
+    width: auto;
+    height: 32px;
+    font-size: $--font-size-medium;
+  }
+  &-S {
+    width: auto;
+    height: 24px;
+    font-size: $--font-size-small;
+  }
+
+  //控制圆角、方角、形状
+  &--round {
+    border-radius: 10px;
+  }
+  &--square {
+    border-radius: 4px;
+  }
+  &--other1 {
+    border-radius: 25% 10%;
+  }
+  &--other2 {
+    border-radius: 10% / 50%;
+  }
+  &--other3 {
+    border-radius: 10px 100px / 120px;
+  }
+  &--other4 {
+    border-radius: 50% 20% / 10% 40%;
+  }
 
   &-primary {
     color: $--font-color-primary;
     background-color: $--color-primary;
     // focus,hover的时，背景色变深
     img {
-      width: 66%; height: 75%; object-fit: contain;
+      width: 66%;
+      height: 75%;
+      object-fit: contain;
       filter: brightness(600%);
       transform: rotate(90deg);
     }
@@ -41,7 +78,6 @@
       background-color: rgba($--color-disabled, 1);
       color: $--font-color-disabled;
     }
-    // button.scss --- 省略部分代码 ---
   }
 
   &-secondary {
@@ -49,7 +85,9 @@
     border: 1px solid $--border-color-secondary;
     color: $--color-main;
     img {
-      width: 66%; height: 75%; object-fit: contain;
+      width: 66%;
+      height: 75%;
+      object-fit: contain;
       transform: rotate(90deg);
     }
     &:focus,
@@ -67,19 +105,18 @@
   }
   &-revert {
     background-color: #ffffff;
-    border:1px solid $--color-disabled;
+    border: 1px solid $--color-disabled;
     color: $--font-color-main;
     img {
       width: 66%;
-      height: 75%; 
+      height: 75%;
       object-fit: contain;
       transform: rotate(90deg);
     }
     &:focus,
     &:hover {
-      
       border: 1px solid $--border-color-secondary;
-      color:$--border-color-secondary;
+      color: $--border-color-secondary;
       outline: none;
     }
     &:active {
@@ -126,15 +163,15 @@
   //     background-color: rgba($--color-button-group, 0.75);
   //   }
   // }
-  &-danger {
-    background-color: $--color-danger;
-    border-color: $--color-danger;
-    &:focus,
-    &:hover {
-      background-color: rgba($--color-danger, 0.50);
-    }
-    &:active {
-      background-color: rgba($--color-danger, 0.75);
-    }
-  }
+  // &-danger {
+  //   background-color: $--color-danger;
+  //   border-color: $--color-danger;
+  //   &:focus,
+  //   &:hover {
+  //     background-color: rgba($--color-danger, 0.50);
+  //   }
+  //   &:active {
+  //     background-color: rgba($--color-danger, 0.75);
+  //   }
+  // }
 }
