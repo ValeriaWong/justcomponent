@@ -2,8 +2,14 @@
   <div>
     <ButtonPrimary></ButtonPrimary>
     <ButtonPrimary type="primary">主要按钮</ButtonPrimary>
-    <ButtonPrimary type="info">信息按钮</ButtonPrimary>
-    <ButtonPrimary type="success">成功按钮</ButtonPrimary>
+    
+    <ButtonPrimary type="secondary">次级按钮</ButtonPrimary>
+    <ButtonPrimary :loading="!isLoading" type="primary">带loading的主要按钮</ButtonPrimary>
+    <ButtonPrimary :loading="!isLoading" type="secondary">带loading的次级按钮</ButtonPrimary>
+    <ButtonPrimary :loading="!isLoading" type="revert">带loading的回退按钮</ButtonPrimary>
+    <!-- component event should use emit, default event like 'click' may block -->
+    <button @click="isLoading = !isLoading">Switch Loading</button>
+    <ButtonPrimary type="revert">回退按钮</ButtonPrimary>
     <ButtonPrimary type="warning">警告按钮</ButtonPrimary>
     <ButtonPrimary type="danger">危险按钮</ButtonPrimary>
   </div>
@@ -58,5 +64,8 @@ nav {
 }
 </style>
 <script lang="ts" setup>
+import { ref } from 'vue';
 import ButtonPrimary from './views/button/button.vue';
+
+const isLoading = ref(true)
 </script>

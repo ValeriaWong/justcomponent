@@ -1,16 +1,23 @@
 <!-- // button.vue -->
 <template>
-  <button
+  <!-- <button
     class="simple-button"
     :class="[type ? `simple-button--${type} text-color` : '']"
   >
     <span><slot>这是style样式按钮</slot></span>
-  </button>
+  </button> -->
   <button
     class="my-button"
     :class="[type ? `my-button-${type} text-color` : '']"
   >
-    <span><slot>这是使用scss文件的button</slot></span>
+    <span v-if="loading"
+      ><img
+        src="../../assets/loading.png"
+        alt="loading"
+        
+      /><!--  put loading icon to this section --></span
+    >
+    <span v-else><slot>这是使用scss文件的button</slot></span>
   </button>
   <br />
 </template>
@@ -25,8 +32,10 @@ defineProps({
     type: String,
     default: 'primary',
   },
+  loading: {
+    type: Boolean, // delete default value
+  },
 });
-
 // export default {
 //   name: "ButtonPrimary",
 //   data() {
@@ -59,7 +68,7 @@ defineProps({
   };
   </script> -->
 <style lang="scss">
-@import "../../styles/index";
+@import '../../styles/index';
 
 .my-button {
   @include button-wrapper;
@@ -67,49 +76,49 @@ defineProps({
 
 .simple-button {
   /* 设置宽度自适应 */
-  width: auto{
+  width: auto {
 
   }
-  height: 35px{
+  height: 35px {
 
   }
 
   /* 将按钮左右边距调大一些显得美观 */
-  padding: 0 10px{
+  padding: 0 10px {
 
   }
 
   /* 居中 */
-  text-align: center{
+  text-align: center {
 
   }
-  justify-content: center{
+  justify-content: center {
 
   }
-  align-items: center{
+  align-items: center {
 
   }
 
   /* 边框不显示 */
-  border: none{
+  border: none {
 
   }
 
   /* 圆角框 */
-  border-radius: 3px{
+  border-radius: 3px {
 
   }
 
   /* 盒子阴影 */
-  box-shadow: 0 0 3px gray{
+  box-shadow: 0 0 3px gray {
 
   }
-  font-family: inherit{
+  font-family: inherit {
 
   }
 
   /* 鼠标变为小手标识 */
-  cursor: pointer{
+  cursor: pointer {
 
   }
   font-size: 14px;
@@ -135,7 +144,7 @@ defineProps({
   background-color: rgb(233 56 56);
 }
 
-.text-color {
-  color: rgb(134, 84, 84);
-}
+// .text-color {
+//   color: rgb(250, 250, 250);
+// }
 </style>
