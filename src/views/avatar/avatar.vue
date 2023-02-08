@@ -33,11 +33,6 @@ const props = defineProps({
   backgroundColor: {
     type: String,
   },
-  isRotate: {
-    type: String,
-    default: 'yes',
-    // 默认开启
-  },
 });
 
 const emits = defineEmits(['error']);
@@ -45,7 +40,7 @@ const emits = defineEmits(['error']);
 const hasLoadError = ref(false);
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-const { size, shape, color, backgroundColor, isRotate } = props;
+const { size, shape, color, backgroundColor } = props;
 
 const classes = computed(() => ({
   [`avatar--${size}`]: typeof size === 'string',
@@ -57,7 +52,6 @@ const styles = computed(() => ({
   height: typeof size === 'number' ? `${size}px` : '',
   color,
   backgroundColor,
-  isRotate,
 }));
 
 watch(
@@ -95,12 +89,7 @@ $default-background: rgb(34, 167, 242);
   justify-content: center;
   font-size: $font-size;
   color: $white;
-
-  // transition: all 2.0s;
-  //实现头像旋转
-  @if isRotate == 'yes' {
-    transition: all 2s;
-  }
+  transition: all 2s;
 
   > img {
     width: 100%;
@@ -108,12 +97,10 @@ $default-background: rgb(34, 167, 242);
   }
 }
 
-//实现头像旋转
 .avatar:hover {
-  // transform: rotate(360deg);
-  @if isRotate == 'yes' {
-    transform: rotate(360deg);
-  }
+  //这里如何设置组件的属性使得该效果
+  //按照需要生效还未知
+  transform: rotate(360deg);
 }
 
 .avatar--default {

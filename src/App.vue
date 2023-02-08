@@ -1,14 +1,12 @@
 <template>
-  <div class="input_test">
-    <!-- <MyInput><MyInput> -->
-  </div>
+  <div class="input_test"></div>
 
   <div class="avatar_test">
     <div class="c1">
       <avatar :src="imgUrl" size="small" alt="小头像" />
       <avatar :src="imgUrl" size="default" />
       <avatar :src="imgUrl" size="large" />
-      <avatar :src="imgUrl" :size="100" isRotate="no" />
+      <avatar :src="imgUrl" :size="100" rotateIndicator />
     </div>
 
     <div class="c2">
@@ -40,14 +38,14 @@
     </div>
   </div>
 
-  <!-- <div class="Button_test">
+  <div class="Button_test">
     <ButtonPrimary></ButtonPrimary>
     <ButtonPrimary type="primary">主要按钮</ButtonPrimary>
     <ButtonPrimary type="info">信息按钮</ButtonPrimary>
     <ButtonPrimary type="success">成功按钮</ButtonPrimary>
     <ButtonPrimary type="warning">警告按钮</ButtonPrimary>
     <ButtonPrimary type="danger">危险按钮</ButtonPrimary>
-  </div> -->
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -74,8 +72,7 @@ nav {
 </style>
 
 <script lang="ts" setup>
-// import ButtonPrimary from './views/button/button.vue';
+import ButtonPrimary from './views/button/button.vue';
 import avatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
-// import MyInput from './views/input/input.vue';
 </script>
