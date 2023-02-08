@@ -59,7 +59,7 @@ defineProps({
   };
   </script> -->
 <style lang="scss">
-@import "../../styles/index";
+@import '../../styles/index';
 
 .my-button {
   @include button-wrapper;
@@ -67,49 +67,49 @@ defineProps({
 
 .simple-button {
   /* 设置宽度自适应 */
-  width: auto{
+  width: auto {
 
   }
-  height: 35px{
+  height: 35px {
 
   }
 
   /* 将按钮左右边距调大一些显得美观 */
-  padding: 0 10px{
+  padding: 0 10px {
 
   }
 
   /* 居中 */
-  text-align: center{
+  text-align: center {
 
   }
-  justify-content: center{
+  justify-content: center {
 
   }
-  align-items: center{
+  align-items: center {
 
   }
 
   /* 边框不显示 */
-  border: none{
+  border: none {
 
   }
 
   /* 圆角框 */
-  border-radius: 3px{
+  border-radius: 3px {
 
   }
 
   /* 盒子阴影 */
-  box-shadow: 0 0 3px gray{
+  box-shadow: 0 0 3px gray {
 
   }
-  font-family: inherit{
+  font-family: inherit {
 
   }
 
   /* 鼠标变为小手标识 */
-  cursor: pointer{
+  cursor: pointer {
 
   }
   font-size: 14px;

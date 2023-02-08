@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
     "preview": "vite preview",
     "lint:create": "eslint --init",
     "prepare": "husky install",
@@ -45,7 +45,7 @@
     "postcss": "^8.4.21",
     "postcss-html": "^1.5.0",
     "prettier": "^2.8.3",
-    "stylelint": "@^13.x",
+    "stylelint": "^13.x",
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-config-standard": "^29.0.0",
     "stylelint-config-standard-scss": "^6.1.0",
