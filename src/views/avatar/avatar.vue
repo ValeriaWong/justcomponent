@@ -33,6 +33,10 @@ const props = defineProps({
   backgroundColor: {
     type: String,
   },
+  isRotated: {
+    type: String,
+    default: '',
+  },
 });
 
 const emits = defineEmits(['error']);
@@ -40,12 +44,12 @@ const emits = defineEmits(['error']);
 const hasLoadError = ref(false);
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-const { size, shape, color, backgroundColor } = props;
+const { size, shape, color, backgroundColor, isRotated } = props;
 
 const classes = computed(() => ({
   [`avatar--${size}`]: typeof size === 'string',
   [`avatar--${shape}`]: typeof shape === 'string',
-  // [`avatar--${isRotate}`]: true
+  [`avatar--${isRotated}`]: isRotated,
 }));
 
 const styles = computed(() => ({
@@ -100,6 +104,7 @@ $default-background: rgb(34, 167, 242);
   &--isRotated {
     transition: all 2s;
   }
+
   &:hover {
     transform: rotate(360deg);
   }
