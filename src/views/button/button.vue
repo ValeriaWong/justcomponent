@@ -14,7 +14,6 @@
       ><img
         src="../../assets/loading.png"
         alt="loading"
-        
       /><!--  put loading icon to this section --></span
     >
     <span v-else><slot>这是使用scss文件的button</slot></span>
