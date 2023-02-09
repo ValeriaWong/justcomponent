@@ -1,6 +1,14 @@
 <template>
   <div class="input_test">
-    <!-- <MyInput><MyInput> -->
+    <!-- <MyInput></MyInput> -->
+    <my-input v-model="value"></my-input>
+    <my-input disabled></my-input>
+    <my-input showPassword></my-input>
+    <my-input clearable></my-input>
+    <my-input v-model="value1" type="textarea"></my-input>
+    <my-input readonly placeholder="输入"></my-input>
+    <my-input placeholder="输入"></my-input>
+    <my-input placeholder="输入" type="textarea"></my-input>
   </div>
 
   <div class="avatar_test">
@@ -11,7 +19,7 @@
       <avatar :src="imgUrl" :size="100" isRotated="isRotated" />
     </div>
 
-    <!-- <div class="c2">
+    <div class="c2">
       <avatar :src="imgUrl" size="small" shape="square" />
       <avatar :src="imgUrl" size="default" shape="square" />
       <avatar :src="imgUrl" size="large" shape="square" />
@@ -37,7 +45,7 @@
       <avatar size="default" color="white" background-color="gray">Hi</avatar>
       <avatar size="large" background-color="gray">Hi</avatar>
       <avatar :size="100" background-color="gray">Hi</avatar>
-    </div> -->
+    </div>
   </div>
 
   <div>
@@ -116,9 +124,13 @@ nav {
 <script lang="ts" setup>
 import { ref } from 'vue';
 import ButtonPrimary from './views/button/button.vue';
-
 import avatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
-// import MyInput from './views/input/input.vue';
+
+import MyInput from './views/input/input.vue';
+
 const isLoading = ref(true);
+
+const value = ref('请输入');
+const value1 = ref('输入文本');
 </script>
