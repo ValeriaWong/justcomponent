@@ -8,7 +8,7 @@
       round ? `my-button--${round}` : '',
     ]"
   >
-    <span v-if="loading"
+    <span  v-if="loading"
       ><img src="../../assets/loading.png" alt="loading"
     /></span>
     <span v-else><slot>这是使用scss文件的button</slot></span>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
+import { defineProps} from 'vue';
 
 defineProps({
   type: {
@@ -27,9 +27,7 @@ defineProps({
     type: String,
     default: 'M',
   },
-  loading: {
-    type: Boolean, // delete default value
-  },
+  loading: Boolean, 
   round: {
     type: String,
     default: 'square',
@@ -39,6 +37,8 @@ defineProps({
     default: 'left',
   },
 });
+
+
 </script>
 
 <style lang="scss">
