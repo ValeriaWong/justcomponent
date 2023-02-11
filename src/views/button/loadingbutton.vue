@@ -1,10 +1,12 @@
 <!-- // button.vue -->
 <template>
   <ButtonPrimary @click="switchloading">
-    <span  v-if="isLoading"
-      ><img src="../../assets/loading.png" alt="loading"
-    />加载中</span>
-    <span v-else><slot>这是使用scss文件的button</slot></span>
+    <div class="my-button-wrapper" v-if="isLoading">
+      <img src="../../assets/loading.png" alt="loading" />加载中
+    </div>
+    <div class="my-button-wrapper" v-else>
+      <slot>这是使用scss文件的button</slot>
+    </div>
   </ButtonPrimary>
 </template>
 

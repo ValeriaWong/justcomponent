@@ -77,12 +77,13 @@
       <ButtonPrimary type="revert" size="L">回退按钮</ButtonPrimary>
     </div>
     
-    <div>
-      <Space wrap>
-      
+    
+    <div style="display: flex;">
+      <!--防止点击后更换位置，需要在父级块状元素处增加style="display: flex;"-->
       <ButtonLoading type="primary">点击切换loading的主要按钮</ButtonLoading>
       <ButtonLoading type="secondary">点击切换loading的次级按钮</ButtonLoading>
       <ButtonLoading type="revert">点击切换loading的回退按钮</ButtonLoading>
+    
       <!-- <ButtonPrimary @click="switchloading" :loading="!isLoading" type="primary"
         >点击切换loading的主要按钮</ButtonPrimary
       >
@@ -95,7 +96,7 @@
         >点击切换loading的回退按钮</ButtonPrimary
       > -->
       <!-- component event should use emit, default event like 'click' may block -->
-    </Space>
+   
     </div>
     
     <ButtonPrimary type="warning">警告按钮</ButtonPrimary>
@@ -103,7 +104,7 @@
   </div>
 
   <div>
-    <Select></Select>
+    <SelectPrimary></SelectPrimary>
   </div>
 </Space>
 </template>
@@ -129,6 +130,7 @@ nav {
     }
   }
 }
+
 </style>
 
 <script lang="ts" setup>
@@ -137,7 +139,7 @@ import ButtonPrimary from './views/button/button.vue';
 import ButtonLoading from './views/button/loadingbutton.vue';
 import avatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
-import Select from "./views/select/select.vue"
+import SelectPrimary from "./views/select/select-search.vue"
 import MyInput from './views/input/input.vue';
 
 

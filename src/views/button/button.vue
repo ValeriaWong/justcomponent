@@ -8,15 +8,15 @@
       round ? `my-button--${round}` : '',
     ]"
   >
-    <span  v-if="loading"
+    <div  v-if="loading"
       ><img src="../../assets/loading.png" alt="loading"
-    /></span>
-    <span v-else><slot>这是使用scss文件的button</slot></span>
+    /></div>
+    <div  v-else><slot>这是使用scss文件的button</slot></div>
   </button>
 </template>
 
 <script lang="ts" setup>
-import { defineProps} from 'vue';
+import { defineProps } from 'vue';
 
 defineProps({
   type: {

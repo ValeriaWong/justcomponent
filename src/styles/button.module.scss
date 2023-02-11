@@ -2,12 +2,26 @@
 @import './common/themes.module.scss';
 
 @mixin button-wrapper {
+  margin-right: 10px;
   font-size: $--font-size-medium;
   color: $--font-color-main; //文本主色
   outline: none;
   border: 1px dotted transparent;
   padding: 0 10px;
   cursor: pointer;
+
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      height: 20px;
+      
+      object-fit: contain;
+     
+      transform: rotate(90deg);
+    }
+  }
 
   //控制大小
   &-L {
@@ -51,11 +65,9 @@
     background-color: $--color-primary;
     // focus,hover的时，背景色变深
     img {
-      width: 66%;
-      height: 75%;
-      object-fit: contain;
+      
       filter: brightness(600%);
-      transform: rotate(90deg);
+      
     }
     &:focus,
     &:focus-visible {
@@ -84,12 +96,7 @@
     background-color: $--color-light-background;
     border: 1px solid $--border-color-secondary;
     color: $--color-main;
-    img {
-      width: 66%;
-      height: 75%;
-      object-fit: contain;
-      transform: rotate(90deg);
-    }
+    
     &:focus,
     &:hover {
       background-color: rgba($--color-secondary-hover, 1);
@@ -104,15 +111,12 @@
     }
   }
   &-revert {
+    margin-right: 10px;
+
     background-color: #ffffff;
     border: 1px solid $--color-disabled;
     color: $--font-color-main;
-    img {
-      width: 66%;
-      height: 75%;
-      object-fit: contain;
-      transform: rotate(90deg);
-    }
+    
     &:focus,
     &:hover {
       border: 1px solid $--border-color-secondary;
