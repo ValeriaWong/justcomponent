@@ -139,12 +139,11 @@
           <!-- component event should use emit, default event like 'click' may block -->
         </div>
       </div>
-      <ButtonPrimary type="warning">警告按钮</ButtonPrimary>
-      <ButtonPrimary type="danger">危险按钮</ButtonPrimary>
+      
     </div>
 
-    <div>
-      <!-- <SelectPrimary></SelectPrimary> -->
+    <div class="dropselect-wrapper" v-if="type == 'dropselect'">
+      <DropSelect />
     </div>
   </Space>
 </template>
@@ -178,7 +177,7 @@ import ButtonPrimary from './views/button/button.vue';
 import ButtonLoading from './views/button/loadingbutton.vue';
 import avatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
-// import SelectPrimary from "./views/select/select-search.vue"
+import DropSelect from "./views/dropselect/dropselect.vue"
 import MyInput from './views/input/input.vue';
 
 const value = ref('请输入');
