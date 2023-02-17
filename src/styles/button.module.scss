@@ -131,6 +131,36 @@
       color: $--font-color-disabled;
     }
   }
+  &-icon {
+    border:none;
+    background-color: inherit;
+    
+    // border-color: inherit;
+    width:fit-content;
+    img {
+      width:12px;
+      height:12px;
+      // todo：按照icon的fill颜色更改父级icon div 的background color
+      @if (attr(fill) == "red") {
+        $--color-icon-background-color: rgba(attr(fill) ,0.75)
+      }
+      @else{
+        $--color-icon-background-color: $--color-secondary;
+      }
+      
+    }
+    &:focus,
+      &:hover {
+        background-color: $--color-icon-background-color
+      }
+      &:active {
+        background-color: rgba($--color-icon-background-color, 0.5);
+      }
+      &:disabled {
+        background-color: rgba($--color-disabled, 1);
+        color: $--font-color-disabled;    
+    }
+  }
   // &-subtle {
   //   background-color: $--color-subtle;
   //   border-color: $--color-subtle;
