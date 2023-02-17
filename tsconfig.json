@@ -25,5 +25,5 @@
       "*.ts": ["*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/views/select/index.js", "src/views/select/index.js"]
+  "include": ["src/**/*.ts","src/typings" ,"src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/views/select/index.js", "src/utils/assist.js", "src/views/dropselect/arealist.js"]
 }

@@ -16,6 +16,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@vant/area-data": "^1.4.0",
     "stylelint-selector-bem-pattern": "^2.1.1",
     "vue": "^3.2.45"
   },

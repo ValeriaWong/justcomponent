@@ -2,12 +2,15 @@
   <Space wrap>
     <div class="btn-able-wrapper" v-if="type == 'btnAble'">
       <div>
-        <ButtonPrimary type="primary" disabled>主要按钮</ButtonPrimary>
-        <ButtonPrimary type="secondary" disabled>次级按钮</ButtonPrimary>
-        <ButtonPrimary type="revert" disabled>回退按钮</ButtonPrimary>
+        <ButtonPrimary type="primary" >主要按钮</ButtonPrimary>
+        <ButtonPrimary type="secondary" >次级按钮</ButtonPrimary>
+        <ButtonPrimary type="revert" >回退按钮</ButtonPrimary>
+        <ButtonPrimary type="icon"></ButtonPrimary>
+        <ButtonPrimary type="icon" icon="clear"></ButtonPrimary>
+        <ButtonPrimary type="icon" icon="download"></ButtonPrimary>
       </div>
 
-      <ButtonPrimary type="warning">警告按钮</ButtonPrimary>
+      
       <ButtonPrimary type="danger">危险按钮</ButtonPrimary>
     </div>
 
@@ -143,18 +146,40 @@
     </div>
 
     <div class="dropselect-wrapper" v-if="type == 'dropselect'">
-      <DropSelect />
+      <DropSelect type='multiple' />
+      <DropSelect type='multiple' disabled />
+      <DropSelect type='multiple-search' />
+      <DropSelect type='multiple-cascader' />
+
+      <DropSelect type='single' />
+      <DropSelect type='single' disabled />
+      
+      <DropSelect type='single-group' />
+      <DropSelect type='single-description' />
+      <DropSelect type='single-cascader' />
+     
     </div>
   </Space>
 </template>
 
 <style lang="scss" scoped>
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center!important;
+  min-width: 320px;
+  min-height: 100vh;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin:0 auto;
+  max-width: 1280px;
+  padding: 2rem;
 }
 
 nav {
