@@ -101,7 +101,6 @@ const handleInput = (e: any) => {
 };
 const searchData = ref('');
 
-
 const toggle = () => {
   if (props.disabled) return;
   show.value = !show.value;
@@ -143,31 +142,37 @@ const clearable = () => {
           placeholder="select multiple"
           @input="handleInput"
         >
-        
-        <span class="dropinput--muti-option-box" v-text = "selected[-1]" ></span>
-        <img
-          src="../../assets/clearable.svg"
-          class="dropinput--clearable"
-          @click="clearable()"
-          v-if="selected.length != 0"
-        />
-        <div class="dropinput--select-arrow" @click="toggle()">
+          <span class="dropinput--muti-option-box" v-text="selected[-1]"></span>
           <img
-            src="../../assets/dropdown.svg"
-            class="dropinput--select-arrow-down"
-            v-if="show == false"
+            src="../../assets/clearable.svg"
+            class="dropinput--clearable"
+            @click="clearable()"
+            v-if="selected.length != 0"
           />
-          <img
-            src="../../assets/dropup.svg"
-            class="dropinput--select-arrow-up"
-            v-else
-          />
+          <div class="dropinput--select-arrow" @click="toggle()">
+            <img
+              src="../../assets/dropdown.svg"
+              class="dropinput--select-arrow-down"
+              v-if="show == false"
+            />
+            <img
+              src="../../assets/dropup.svg"
+              class="dropinput--select-arrow-up"
+              v-else
+            />
+          </div>
         </div>
       </div>
-    </div>
       <div class="--optionlist" v-if="show">
-        
-        <my-input class="--optionlist--search-box" v-if="type === 'multiple-search'" v-model="searchData"></my-input>
+        <div class="--optionlist--search-box">
+          <my-input
+            icon="search"
+            
+            v-if="type === 'multiple-search'"
+            v-model="searchData"
+          ></my-input>
+        </div>
+
         <div
           class="--optionlist-item"
           :class="{ active: selected.indexOf(city) != -1 }"

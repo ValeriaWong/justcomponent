@@ -159,8 +159,14 @@ $--optionlist-height: 100px;
           width: fit-content;
         }
         &--search-box {
-          width:fit-content;
+          padding:2px 5px;
           height :auto;
+
+          my-input {
+            height:fit-content;
+            width:max-content;
+          }
+          
         }
 
         .groupName {

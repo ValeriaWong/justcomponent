@@ -18,7 +18,7 @@ $active-color: #87ceeb;
     display:flex;
     position: relative;
     cursor: pointer;
-    width: width('.my-input')-16px;
+    width:100%;
     height: 24px;
     line-height: 24px;
     background-color: #fff;
@@ -30,7 +30,7 @@ $active-color: #87ceeb;
     display: inline-block;
     font-size: inherit;
     outline: none;
-    padding: 0 15px;
+    padding: 0 5px;
     //适合白色背景，后面可以调整，比如黑色背景选白字
     color: black;
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -86,6 +86,7 @@ $active-color: #87ceeb;
     display: none;
   }
 
+ 
   &:hover .close-icon,
   &:focus .close-icon,
   &:hover .password-icon,
@@ -93,17 +94,24 @@ $active-color: #87ceeb;
   &-suffix-icon {
     // margin: 0 1px;
     height: 80%;
-    // display: flex;
+    display: flex;
     // justify-content: center;
     align-items: center;
-
+    border-radius: 3px;
     margin-left:auto;
     // margin-top:50%;
-    position:relative;
-    top:3px;
-    left:-22px;
+    position:absolute;
+    top:25%;
+    right:10px;
 
-    display:inline-block;
+    // display:inline-block;
+    &:focus,&:hover {
+      filter:brightness(680%);
+      
+    }
+    &:active{
+      filter:brightness(500%);
+    }
 
     .my-icon {
       color: #dcdfe6;
