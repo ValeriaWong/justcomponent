@@ -158,6 +158,11 @@ $--optionlist-height: 100px;
         &-cascader {
           width: fit-content;
         }
+        &--search-box {
+          width:fit-content;
+          height :auto;
+        }
+
         .groupName {
           color: lightgray;
           position: relative;

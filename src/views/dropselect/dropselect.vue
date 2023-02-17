@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
 import { areaList } from '@vant/area-data';
+import MyInput from '../input/input.vue';
 
 const groupareaList = ref([
   {
@@ -98,6 +99,8 @@ const handleInput = (e: any) => {
   // eslint-disable-next-line no-console
   console.log('handleInput::', e);
 };
+const searchData = ref('');
+
 
 const toggle = () => {
   if (props.disabled) return;
@@ -163,7 +166,8 @@ const clearable = () => {
       </div>
     </div>
       <div class="--optionlist" v-if="show">
-        <input type="text" v-if="type === 'multiple-search'"/>
+        
+        <my-input class="--optionlist--search-box" v-if="type === 'multiple-search'" v-model="searchData"></my-input>
         <div
           class="--optionlist-item"
           :class="{ active: selected.indexOf(city) != -1 }"

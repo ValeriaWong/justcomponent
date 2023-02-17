@@ -38,6 +38,7 @@
       <div class="input_test">
         <!-- <MyInput></MyInput> -->
         <my-input v-model="value"></my-input>
+        <my-input v-model="value" icon="search"></my-input>
         <my-input disabled></my-input>
         <my-input showPassword></my-input>
         <my-input clearable></my-input>
