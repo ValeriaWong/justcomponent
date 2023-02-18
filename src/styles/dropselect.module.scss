@@ -56,21 +56,24 @@ $--optionlist-height: 100px;
       .dropinput {
         width: $--dropinput-width;
         display: flex;
+        position: relative;
         padding-right: 4px;
-        height: 24px;
+        min-height: 24px;
         align-items: center;
 
         input,
         &--input-box {
-          display:flex;
+          display: flex;
+          flex-wrap: wrap;
           // justify-content: space-between;
-          
-          @if (height('.dropinput') == $--dropinput-height-L){
-          height:$--dropinput-height-L;}
-          @else if(height('.dropinput') == $--dropinput-height-M){
-            height:$--dropinput-height-M;}
-          @else {
-            height:$--dropinput-height-S;}
+
+          @if (height('.dropinput') == $--dropinput-height-L) {
+            min-height: $--dropinput-height-L;
+          } @else if(height('.dropinput') == $--dropinput-height-M) {
+            min-height: $--dropinput-height-M;
+          } @else {
+            min-height: $--dropinput-height-S;
+          }
 
           caret-color: transparent;
           cursor: inherit;
@@ -95,7 +98,6 @@ $--optionlist-height: 100px;
           &:focus-visible {
             box-shadow: 0 0 5px 4px #d5e9fc;
           }
-          
         }
         :empty:before {
           content: attr(placeholder);
@@ -104,9 +106,18 @@ $--optionlist-height: 100px;
         }
         &--muti-option-box {
           background-color: #fafafa;
-          width: auto;
-          overflow-x: hidden;
+          max-width: 60px;
           padding-right: 17px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          &--text {
+            display: inline-block;
+            white-space: nowrap;
+            width: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
           &--clearable {
             height: 12px;
             position: relative;
@@ -117,10 +128,11 @@ $--optionlist-height: 100px;
         &--select-arrow {
           display: inline-block;
           width: auto;
-          height: 12px;
-          position: relative;
-          top: 25%;
-          margin-left:auto;
+          // height: 12px;
+          position: absolute;
+          top: 50%;
+          right: 12px;
+          margin-left: auto;
           line-height: 1;
           -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
@@ -159,14 +171,13 @@ $--optionlist-height: 100px;
           width: fit-content;
         }
         &--search-box {
-          padding:2px 5px;
-          height :auto;
+          padding: 2px 5px;
+          height: auto;
 
           my-input {
-            height:fit-content;
-            width:max-content;
+            height: fit-content;
+            width: max-content;
           }
-          
         }
 
         .groupName {

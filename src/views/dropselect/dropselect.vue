@@ -94,7 +94,7 @@ const handleClick = (cityName: string, index: number) => {
     selected.value.pop();
   }
 };
-// const formatData = computed(() => selected.value.join(','));
+
 const handleInput = (e: any) => {
   // eslint-disable-next-line no-console
   console.log('handleInput::', e);
@@ -106,14 +106,29 @@ const toggle = () => {
   show.value = !show.value;
 };
 
+const clearByIndex = (index: number) => {
+  selected.value.splice(index, 1);
+};
+
 const clearable = () => {
   selected.value = [];
   single.value = undefined;
 };
-// const removeClick = ()=> {
-//   show.value=!show.value;
-//   // selected.value.splice(index, 1);
-// };
+
+const formatList = (rawData: Record<string, string>) => {
+  if (searchData.value === '') {
+    return rawData;
+  }
+
+  const tmpData = JSON.parse(JSON.stringify(rawData));
+  Object.keys(rawData).forEach((key) => {
+    if (rawData[key].indexOf(searchData.value) === -1) {
+      delete tmpData[key]
+    }
+  })
+
+  return tmpData;
+};
 </script>
 
 <template>
@@ -142,7 +157,14 @@ const clearable = () => {
           placeholder="select multiple"
           @input="handleInput"
         >
-          <span class="dropinput--muti-option-box" v-text="selected[-1]"></span>
+          <div
+            class="dropinput--muti-option-box"
+            v-for="(item, iIndex) in selected"
+            :key="iIndex"
+          >
+            <span class="dropinput--muti-option-box--text" v-text="item"></span>
+            <span @click="clearByIndex(iIndex)">x</span>
+          </div>
           <img
             src="../../assets/clearable.svg"
             class="dropinput--clearable"
@@ -167,7 +189,6 @@ const clearable = () => {
         <div class="--optionlist--search-box">
           <my-input
             icon="search"
-            
             v-if="type === 'multiple-search'"
             v-model="searchData"
           ></my-input>
@@ -176,7 +197,7 @@ const clearable = () => {
         <div
           class="--optionlist-item"
           :class="{ active: selected.indexOf(city) != -1 }"
-          v-for="(city, index, $index) in areaList.city_list"
+          v-for="(city, index, $index) in formatList(areaList.city_list)"
           :key="index"
           @click="handleClick(city, $index)"
         >
@@ -245,16 +266,16 @@ const clearable = () => {
             </div>
           </div>
         </div>
-        <div v-else v-for="(group, index) in groupareaList" :key="index">
+        <div v-else v-for="(groupItem, index) in groupareaList" :key="index">
           <div
             v-if="type == 'single-group'"
             class="groupName"
-            v-text="group.label"
+            v-text="groupItem.label"
           ></div>
           <div
             class="--optionlist-item"
             :class="{ active: city.text == single }"
-            v-for="(city, cIndex) in group.children"
+            v-for="(city, cIndex) in groupItem.children"
             :key="cIndex"
             @click="handleSingleClick(city.text)"
           >
