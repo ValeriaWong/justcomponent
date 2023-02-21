@@ -111,11 +111,7 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
 };
 
 
-// 全部清空选项
-const clearable = () => {
-  
-  single.value = undefined;
-};
+
 </script>
 
 <template>
@@ -126,11 +122,8 @@ const clearable = () => {
       size ? `my-dropselect-${size}` : '',
     ]"
   >
-    <div class="common-wrapper" :class="disabled ? 'disabled' : ''">
+      <div  class="common-wrapper" :class="disabled ? 'disabled' : ''">
       <div class="dropinput">
-        <!-- v-text="formatData" -->
-
-        <!-- v-if=" type == 'single' || type == 'single-group' || type == 'single-description' || type == 'single-cascader' " -->
         <div
           class="dropinput--input-box"
           @click="toggle()"
@@ -150,78 +143,68 @@ const clearable = () => {
             v-else
           />
         </div>
-
-        <img
-          src="../../assets/clearable.svg"
-          class="dropinput--clearable"
-          @click="clearable()"
-          v-if="single != undefined"
-        />
       </div>
-      <div v-if="show">
-        <div class="--optionlist-cascader" :style="setCascaderBox">
+
+      <div class="panel-container">
+        <div v-if="show" class="--optionlist" style="border: none !important">
           <div v-for="(first, fIndex) in levelList" :key="fIndex">
             <div
+              class="--optionlist-item"
               :class="{ active: fIndex == levelSelected[0] }"
               :key="fIndex"
               @click="handleLevelSelect(0, fIndex, first.text)"
             >
-              <span v-text="first.text"></span
-              ><span class="--optionlist-nextlevel"
-                ><slot><img src="../../assets/nextpage.svg" /></slot
-              ></span>
-            </div>
-
-            <div
-              v-show="
-                levelSelected.length > 0 &&
-                first.children.length > 0 &&
-                fIndex == levelSelected[0]
-              "
-              v-for="(second, sIndex) in first.children"
-              :key="sIndex"
-            >
-              <div
-                :class="{ active: second == levelSelected[1] }"
-                :key="sIndex"
-                @click="handleLevelSelect(1, sIndex, second.text)"
-              >
-                <span v-text="second.text"></span
-                ><span class="--optionlist-nextlevel"
-                  ><slot><img src="../../assets/nextpage.svg" /></slot
-                ></span>
-              </div>
-
-              <div
-                v-show="
-                  levelSelected.length > 1 &&
-                  second.children.length > 0 &&
-                  sIndex == levelSelected[1]
-                "
-                v-for="(last, lIndex) in second.children"
-                :key="lIndex"
-              >
-                <div
-                  class="--optionlist-item-third"
-                  :class="{ active: last == levelSelected[2] }"
-                  :key="lIndex"
-                  @click="handleLevelSelect(2, lIndex, last.text)"
-                >
-                  <span v-text="last.text"></span
-                  ><span
-                    class="--optionlist-item-selected"
-                    v-if="lIndex == levelSelected[2]"
-                  ></span>
-                </div>
-              </div>
+              <span v-text="first.text"></span>
             </div>
           </div>
         </div>
+
+        <div
+          v-if="
+            show &&
+            levelSelected.length > 0 &&
+            levelList[levelSelected[0]].children.length > 0
+          "
+          class="--optionlist"
+        >
+          <div
+            class="--optionlist-item"
+            v-for="(item, index) in levelList[levelSelected[0]].children"
+            :key="index"
+            :class="{ active: index == levelSelected[1] }"
+            @click="handleLevelSelect(1, index, item.text)"
+          >
+            <span v-text="item.text"></span>
+          </div>
+        </div>
+
+        <div
+          v-if="
+            show &&
+            levelSelected.length > 1 &&
+            levelList[levelSelected[0]].children[levelSelected[1]].children
+              .length > 0
+          "
+          class="--optionlist"
+        >
+          <div
+            class="--optionlist-item"
+            v-for="(item, index) in levelList[levelSelected[0]].children[
+              levelSelected[1]
+            ].children"
+            :key="index"
+            :class="{ active: index == levelSelected[2] }"
+            @click="handleLevelSelect(2, index, item.text)"
+          >
+            <span v-text="item.text"></span>
+          </div>
+        </div>
       </div>
-    </div>
+    </div> 
+ 
   </div>
 </template>
 <style lang="scss" scoped>
 @import '../../styles/index';
-@include cascader-wrapper;
+@include dropselect-wrapper;
 </style>

@@ -25,5 +25,5 @@
       "*.ts": ["*"]
     }
   },
-  "include": ["src/**/*.ts","src/typings" ,"src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/views/select/index.js", "src/utils/assist.js", "src/views/dropselect/arealist.js", "vite-env.d.ts", "vite-env.d.ts"]
+  "include": ["src/**/*.ts","src/typings" ,"src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/views/select/index.js", "src/utils/assist.js", "src/utils/arealist.js", "vite-env.d.ts", "vite-env.d.ts"]
 }

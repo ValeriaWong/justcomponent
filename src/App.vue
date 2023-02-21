@@ -154,8 +154,9 @@
 
       <DropSelect type="single-group" />
       <DropSelect type="single-description" />
+      
       <DropSelect type="single-cascader" />
-      <singleCascader />
+      <DropSelect type="single-linkage" />
     </div>
     <div v-if="type == 'dropselect-single-group'">
       <DropSelect type="single-group" />
@@ -169,7 +170,7 @@
       <DropSelect type="multiple-search" />
     </div>
     <div v-if="type == 'dropselect-single-cascader'">
-      <singleCascader />
+      <DropSelect type="single-linkage" />
     </div>
     <div v-if="type == 'cascader'">
       <DropSelect type="single-cascader" />
@@ -218,7 +219,6 @@ import ButtonLoading from './views/button/loadingbutton.vue';
 import avatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
 import DropSelect from './views/dropselect/dropselect.vue';
-import singleCascader from './views/dropselect/singleCascader.vue';
 import MyInput from './views/input/input.vue';
 
 const value = ref('请输入');
