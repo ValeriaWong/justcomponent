@@ -22,6 +22,22 @@ const groupareaList = ref([
     ],
   },
 ]);
+const levelList = ref([
+  {
+    text: '浙江省',
+    children: [
+      { text: '杭州', children: [{ text: '1' }, { text: '2' }, { text: '3' }] },
+      { text: '温州', children: [{ text: '4' }, { text: '5' }, { text: '6' }] },
+    ],
+  },
+  {
+    text: '江苏省',
+    children: [
+      { text: '苏州', children: [{ text: '1' }, { text: '2' }] },
+      { text: '昆山', children: [] },
+    ],
+  },
+]);
 const props = defineProps({
   show: Boolean,
   search: Boolean,
@@ -68,15 +84,51 @@ const props = defineProps({
   },
 });
 
+// 控制下拉菜单出现和隐藏
+const show = ref(false);
+const toggle = () => {
+  if (props.disabled) return;
+  show.value = !show.value;
+};
 const optionActive = ref(false);
 // 单选
 const single = ref();
-const show = ref(false);
 const handleSingleClick = (cityName: string) => {
   single.value = cityName;
 };
 
-// 级联选择
+// 联动选择
+
+
+const levelSelected = ref([0]);
+const handleLevelSelect = (level: number, index: number, text: string) => {
+  let tmp;
+  if (single.value && single.value.indexOf('/') === -1) {
+    tmp = [single.value];
+  } else if (single.value && single.value.indexOf('/') !== -1) {
+    tmp = single.value.split('/');
+  } else {
+    tmp = [];
+  }
+
+  if (level === 0) {
+    levelSelected.value = [];
+    levelSelected.value.push(index);
+    tmp.push(text);
+   
+  } else if (level === 1) {
+    levelSelected.value = [levelSelected.value[0]];
+    levelSelected.value.push(index);
+    tmp = [tmp[0], text];
+   
+  } else {
+    levelSelected.value = [levelSelected.value[0], levelSelected.value[1]];
+    levelSelected.value.push(index);
+    tmp = [tmp[0], tmp[1], text];
+    // setCascaderBox.value='width: 255px!important;';
+  }
+  single.value = tmp.join('/');
+};
 
 // 多选
 // const show = ref(false);
@@ -101,11 +153,6 @@ const handleInput = (e: any) => {
 };
 const searchData = ref('');
 
-const toggle = () => {
-  if (props.disabled) return;
-  show.value = !show.value;
-};
-
 const clearByIndex = (index: number) => {
   selected.value.splice(index, 1);
 };
@@ -123,12 +170,27 @@ const formatList = (rawData: Record<string, string>) => {
   const tmpData = JSON.parse(JSON.stringify(rawData));
   Object.keys(rawData).forEach((key) => {
     if (rawData[key].indexOf(searchData.value) === -1) {
-      delete tmpData[key]
+      delete tmpData[key];
     }
-  })
+  });
 
   return tmpData;
 };
+
+// const getPanelData = (level: Number) => {
+//   let data = [];
+//   if (level === 0) {
+//     data = levelList.value;
+//   } else if (level === 1) {
+//     data = levelList.value[levelSelected.value[0]].children;
+//   } else {
+//     data =
+//       levelList.value[levelSelected.value[0]].children[levelSelected.value[1]]
+//         .children;
+//   }
+
+//   return data;
+// };
 </script>
 
 <template>
@@ -142,20 +204,16 @@ const formatList = (rawData: Record<string, string>) => {
     <div
       class="common-wrapper"
       :class="disabled ? 'disabled' : ''"
-      v-if="
-        type == 'multiple' ||
-        type == 'multiple-group' || //多选有分类
-        type === 'multiple-search'
-      "
+      v-if="type == 'multiple' || type === 'multiple-search'"
     >
       <div class="dropinput">
-        <!-- v-text="formatData" -->
         <div
           class="dropinput--input-box"
           :disabled="props.disabled"
           @focus="!props.disabled ? (show = true) : ''"
-          placeholder="select multiple"
+          :placeholder="type"
           @input="handleInput"
+          contenteditable="true"
         >
           <div
             class="dropinput--muti-option-box"
@@ -164,14 +222,9 @@ const formatList = (rawData: Record<string, string>) => {
           >
             <span class="dropinput--muti-option-box--text" v-text="item"></span>
             <span @click="clearByIndex(iIndex)">x</span>
-          </div>
-          <img
-            src="../../assets/clearable.svg"
-            class="dropinput--clearable"
-            @click="clearable()"
-            v-if="selected.length != 0"
-          />
-          <div class="dropinput--select-arrow" @click="toggle()">
+          </div> 
+        </div>
+        <div class="dropinput--select-arrow" @click="toggle()">
             <img
               src="../../assets/dropdown.svg"
               class="dropinput--select-arrow-down"
@@ -183,7 +236,12 @@ const formatList = (rawData: Record<string, string>) => {
               v-else
             />
           </div>
-        </div>
+          <img
+            src="../../assets/clearable.svg"
+            class="dropinput--clearable"
+            @click="clearable()"
+            v-if="selected.length != 0"
+          />
       </div>
       <div class="--optionlist" v-if="show">
         <div class="--optionlist--search-box">
@@ -193,19 +251,24 @@ const formatList = (rawData: Record<string, string>) => {
             v-model="searchData"
           ></my-input>
         </div>
-
-        <div
-          class="--optionlist-item"
-          :class="{ active: selected.indexOf(city) != -1 }"
-          v-for="(city, index, $index) in formatList(areaList.city_list)"
-          :key="index"
-          @click="handleClick(city, $index)"
-        >
-          <span v-text="city"></span
-          ><span
-            class="--optionlist-item-selected"
-            v-if="selected.indexOf(city) != -1"
-          ></span>
+        <div class="--optionlist-item-box">
+          <div
+            class="--optionlist-item"
+            :class="{ active: selected.indexOf(city) != -1 }"
+            v-for="(city, index, $index) in formatList(areaList.city_list)"
+            :key="index"
+            @click="handleClick(city, $index)"
+          >
+            <input
+              class="--optionlist-item-checkbox"
+              type="checkbox"
+              :checked="selected.indexOf(city) != -1"
+            />
+            <span class="--optionlist-item-content" v-text="city"></span>
+          </div>
+        </div>
+        <div class="--optionlist-clear-options" @click="clearable()">
+          <slot><img src="../../assets/clearoption.svg" />清空选项 </slot>
         </div>
       </div>
     </div>
@@ -213,11 +276,10 @@ const formatList = (rawData: Record<string, string>) => {
     <!-- single -->
     <div
       class="common-wrapper"
-      v-if="
+      v-else-if="
         type == 'single' ||
         type == 'single-group' ||
-        type == 'single-description' ||
-        type == 'single-cascader'
+        type == 'single-description'
       "
       :class="disabled ? 'disabled' : ''"
     >
@@ -228,12 +290,7 @@ const formatList = (rawData: Record<string, string>) => {
           v-model="single"
           :placeholder="type"
         />
-        <img
-          src="../../assets/clearable.svg"
-          class="dropinput--clearable"
-          @click="clearable()"
-          v-if="single != undefined"
-        />
+
         <div class="dropinput--select-arrow" @click="toggle()">
           <img
             src="../../assets/dropdown.svg"
@@ -246,27 +303,16 @@ const formatList = (rawData: Record<string, string>) => {
             v-else
           />
         </div>
+        <img
+          src="../../assets/clearable.svg"
+          class="dropinput--clearable"
+          @click="clearable()"
+          v-if="single != undefined"
+        />
       </div>
 
       <div v-if="show" class="--optionlist">
-        <div v-if="type == 'single-cascader'" class="--optionlist-cascader">
-          <div v-for="(city, index) in areaList.city_list" :key="index">
-            <!-- <div class="groupName" v-text="group.label"></div> -->
-            <div
-              class="--optionlist-item"
-              :class="{ active: city == single }"
-              :key="index"
-              @click="handleSingleClick(city)"
-            >
-              <span v-text="city"></span
-              ><span
-                class="--optionlist-item-selected"
-                v-if="city == single"
-              ></span>
-            </div>
-          </div>
-        </div>
-        <div v-else v-for="(groupItem, index) in groupareaList" :key="index">
+        <div v-for="(groupItem, index) in groupareaList" :key="index">
           <div
             v-if="type == 'single-group'"
             class="groupName"
@@ -289,6 +335,104 @@ const formatList = (rawData: Record<string, string>) => {
               v-text="city.description"
               v-if="type == 'single-description'"
             ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- type == 'single-cascader' -->
+    <div v-else class="common-wrapper" :class="disabled ? 'disabled' : ''">
+      <div class="dropinput">
+        <div
+          class="dropinput--input-box"
+          @click="toggle()"
+          v-text="single"
+          :placeholder="type"
+        ></div>
+
+        <div class="dropinput--select-arrow" @click="toggle()">
+          <img
+            src="../../assets/dropdown.svg"
+            class="dropinput--select-arrow-down"
+            v-if="show == false"
+          />
+          <img
+            src="../../assets/dropup.svg"
+            class="dropinput--select-arrow-up"
+            v-else
+          />
+        </div>
+      </div>
+
+      <div class="panel-container">
+        <!-- <div
+          v-for="(level, index) in levelSelected"
+          :key="index"
+          v-show="show"
+          class="--optionlist"
+          :style="setCascaderBox"
+        >
+          <div v-for="(item, fIndex) in getPanelData(level)" :key="fIndex">
+            <div
+              :class="{ active: fIndex == levelSelected[level] }"
+              :key="fIndex"
+              @click="handleLevelSelect(level, fIndex, item.text)"
+            >
+              <span v-text="item.text"></span>
+            </div>
+          </div>
+        </div> -->
+
+        <div v-if="show" class="--optionlist" style="border:none!important;">
+          <div v-for="(first, fIndex) in levelList" :key="fIndex">
+            <div class="--optionlist-item"
+              :class="{ active: fIndex == levelSelected[0] }"
+              :key="fIndex"
+              @click="handleLevelSelect(0, fIndex, first.text)"
+            >
+              <span v-text="first.text"></span>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-if="
+            show &&
+            levelSelected.length > 0 &&
+            levelList[levelSelected[0]].children.length > 0
+          "
+          class="--optionlist"
+         
+        >
+          <div class="--optionlist-item"
+            v-for="(item, index) in levelList[levelSelected[0]].children"
+            :key="index"
+            :class="{ active: index == levelSelected[1] }"
+            @click="handleLevelSelect(1, index, item.text)"
+          >
+            <span v-text="item.text"></span>
+          </div>
+        </div>
+
+        <div
+          v-if="
+            show &&
+            levelSelected.length > 1 &&
+            levelList[levelSelected[0]].children[levelSelected[1]].children
+              .length > 0
+          "
+          class="--optionlist"
+          
+        >
+          <div class="--optionlist-item"
+            v-for="(item, index) in levelList[levelSelected[0]].children[
+              levelSelected[1]
+            ].children"
+            :key="index"
+            :class="{ active: index == levelSelected[2] }"
+            @click="handleLevelSelect(2, index, item.text)"
+          >
+            <span v-text="item.text"></span>
           </div>
         </div>
       </div>
