@@ -72,30 +72,34 @@ const showThird = ref(false);
 const firstLevel = ref('');
 const secondLevel = ref('');
 const thirdLevel = ref('');
-const toggle = () => {
+const levelSelected = ref([]);
+
+const toggle = (level: Number) => {
   if (props.disabled) return;
-  if (showFirst.value === false) {
-    showFirst.value = !showFirst.value;
-    showSecond.value = false;
-    showThird.value = false;
-  } else if (showSecond.value === false) {
-    showSecond.value = !showSecond.value;
-    showThird.value = false;
-  } else {
-    showThird.value = !showThird.value;
+
+  switch (level) {
+    case 0:
+      showFirst.value = !showFirst.value;
+      break;
+    case 1:
+      showSecond.value = !showSecond.value;
+      break;
+    case 2:
+      showThird.value = !showThird.value;
+      break;
+    default:
+      break;
   }
 };
-const levelSelected = ref([]);
 const handleLevelSelect = (level: number, index: number, text: string) => {
   if (level === 0) {
     levelSelected.value = [];
     levelSelected.value.push(index);
-    firstLevel.value = text;
     secondLevel.value = '';
     thirdLevel.value = '';
+    firstLevel.value = text;
     showFirst.value = false;
     showSecond.value = true;
-    showThird.value = true;
   } else if (level === 1) {
     levelSelected.value = [levelSelected.value[0]];
     levelSelected.value.push(index);
@@ -128,11 +132,11 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
         <div class="dropinput">
           <div
             class="dropinput--input-box"
-            @click="toggle()"
+            @click="toggle(0)"
             v-text="firstLevel"
             :placeholder="'请选择'"
           ></div>
-          <div class="dropinput--select-arrow" @click="toggle()">
+          <div class="dropinput--select-arrow" @click="toggle(0)">
             <img
               src="../../assets/dropdown.svg"
               class="dropinput--select-arrow-down"
@@ -163,12 +167,12 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
         <div class="dropinput">
           <div
             class="dropinput--input-box"
-            @click="toggle()"
+            @click="toggle(1)"
             v-text="secondLevel"
             :placeholder="'请选择'"
           ></div>
 
-          <div class="dropinput--select-arrow" @click="toggle()">
+          <div class="dropinput--select-arrow" @click="toggle(1)">
             <img
               src="../../assets/dropdown.svg"
               class="dropinput--select-arrow-down"
@@ -205,12 +209,12 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
         <div class="dropinput">
           <div
             class="dropinput--input-box"
-            @click="toggle()"
+            @click="toggle(2)"
             v-text="thirdLevel"
             :placeholder="'请选择'"
           ></div>
 
-          <div class="dropinput--select-arrow" @click="toggle()">
+          <div class="dropinput--select-arrow" @click="toggle(2)">
             <img
               src="../../assets/dropdown.svg"
               class="dropinput--select-arrow-down"
