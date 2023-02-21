@@ -2,15 +2,14 @@
   <Space wrap>
     <div class="btn-able-wrapper" v-if="type == 'btnAble'">
       <div>
-        <ButtonPrimary type="primary" >主要按钮</ButtonPrimary>
-        <ButtonPrimary type="secondary" >次级按钮</ButtonPrimary>
-        <ButtonPrimary type="revert" >回退按钮</ButtonPrimary>
+        <ButtonPrimary type="primary">主要按钮</ButtonPrimary>
+        <ButtonPrimary type="secondary">次级按钮</ButtonPrimary>
+        <ButtonPrimary type="revert">回退按钮</ButtonPrimary>
         <ButtonPrimary type="icon"></ButtonPrimary>
         <ButtonPrimary type="icon" icon="clear"></ButtonPrimary>
         <ButtonPrimary type="icon" icon="download"></ButtonPrimary>
       </div>
 
-      
       <ButtonPrimary type="danger">危险按钮</ButtonPrimary>
     </div>
 
@@ -143,32 +142,47 @@
           <!-- component event should use emit, default event like 'click' may block -->
         </div>
       </div>
-      
     </div>
 
     <div class="dropselect-wrapper" v-if="type == 'dropselect'">
-      <DropSelect type='multiple' />
-      <DropSelect type='multiple' disabled />
-      <DropSelect type='multiple-search' />
-      <DropSelect type='multiple-cascader' />
+      <DropSelect type="multiple" />
+      <DropSelect type="multiple" disabled />
+      <DropSelect type="multiple-search" />
 
-      <DropSelect type='single' />
-      <DropSelect type='single' disabled />
-      
-      <DropSelect type='single-group' />
-      <DropSelect type='single-description' />
-      <DropSelect type='single-cascader' />
-     <singleCascader />
+      <DropSelect type="single" />
+      <DropSelect type="single" disabled />
+
+      <DropSelect type="single-group" />
+      <DropSelect type="single-description" />
+      <DropSelect type="single-cascader" />
+      <singleCascader />
+    </div>
+    <div v-if="type == 'dropselect-single-group'">
+      <DropSelect type="single-group" />
+    </div>
+    <div v-if="type == 'dropselect-multiple'">
+      <DropSelect type="multiple" />
+      <DropSelect type="multiple" disabled />
+      <DropSelect type="multiple-search" />
+    </div>
+    <div v-if="type == 'dropselect-mutiple-search'">
+      <DropSelect type="multiple-search" />
+    </div>
+    <div v-if="type == 'dropselect-single-cascader'">
+      <singleCascader />
+    </div>
+    <div v-if="type == 'cascader'">
+      <DropSelect type="single-cascader" />
+      <DropSelect type="single-cascader" disabled />
     </div>
   </Space>
 </template>
 
 <style lang="scss" scoped>
-
 body {
   margin: 0;
   display: flex;
-  place-items: center!important;
+  place-items: center !important;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -178,7 +192,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin:0 auto;
+  margin: 0 auto;
   max-width: 1280px;
   padding: 2rem;
 }
@@ -203,7 +217,7 @@ import ButtonPrimary from './views/button/button.vue';
 import ButtonLoading from './views/button/loadingbutton.vue';
 import avatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
-import DropSelect from "./views/dropselect/dropselect.vue"
+import DropSelect from './views/dropselect/dropselect.vue';
 import singleCascader from './views/dropselect/singleCascader.vue';
 import MyInput from './views/input/input.vue';
 
