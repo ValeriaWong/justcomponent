@@ -16,22 +16,10 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   // 测试文件
-  testMatch: ['<rootDir>/src/__tests__/**/*.spec.(ts|tsx|js)'],
-  // testMatch: ['<rootDir>/src/__tests__/unit/*.spec.(ts|tsx|js)','<rootDir>/src/__tests__/performance/*.perf.spec.(ts|tsx|js)'],
+  testMatch: ['<rootDir>/src/__tests__/unit/**/*.spec.(ts|tsx|js)'],
+  // testMatch: ['<rootDir>/src/__tests__/unit/**/*.spec.(ts|tsx|js)','<rootDir>/src/__tests__/performance/*.perf.spec.(ts|tsx|js)'],
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: ['/node_modules/'],
-  projects: [
-    {
-      displayName: 'Unit Tests',
-      testMatch: ['<rootDir>/src/__tests__/unit/*.spec.(ts|tsx|js)'],
-      coverageDirectory: 'coverage/unit',
-    },
-    {
-      displayName: 'Performance Tests',
-      testMatch: ['<rootDir>/src/__tests__/performance/*.perf.spec.(ts|tsx|js)'],
-      coverageDirectory: 'coverage/performance',
-    },
-  ],
   // eslint-disable-next-line no-dupe-keys
   moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
 

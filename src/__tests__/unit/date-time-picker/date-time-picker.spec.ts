@@ -47,3 +47,4 @@ describe('DateTimePicker', () => {
     const secondItems = wrapper.findAll('.date_time_item.second p');
     expect(secondItems[0].text()).toBe('56');
   });
+});
