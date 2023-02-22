@@ -1,4 +1,35 @@
 <template>
+  <!--使用 router-link 组件进行导航 -->
+  <!--通过传递 `to` 来指定链接 -->
+  <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
+  <div id="app" class="container">
+    <div class="container-nav">
+      <span>通用型组件</span>
+      <br />
+      <span><router-link to="/button">Button</router-link></span>
+      <hr />
+      <span>数据展示型组件</span>
+      <br />
+      <span><router-link to="/avator">Avator</router-link></span>
+      <hr />
+      <span>数据录入型组件</span>
+      <br />
+      <span><router-link to="/input">Input</router-link></span>
+      <span><router-link to="/cascader">Cascader</router-link></span>
+      <hr />
+      <span>数据录入型组件（复杂组件-核心需求）</span>
+      <br />
+      <span><router-link to="/dropselect">DropSelect</router-link></span>
+      <span
+        ><router-link to="/date-time-picker">DateTimePicker</router-link></span
+      >
+      <hr />
+    </div>
+    <div style="margin: 50px">
+      <router-view></router-view>
+    </div>
+  </div>
+
   <Space wrap>
     <div class="btn-wrapper">
       <div class="btn-able-wrapper" v-if="type == 'btnAble'">
@@ -174,7 +205,7 @@
       </div>
     </div>
     <div class="datetime-picker-wrapper" v-if="type == 'dateTimePicker'">
-    <JustDatetimePicker></JustDatetimePicker>
+      <JustDatetimePicker></JustDatetimePicker>
     </div>
   </Space>
 </template>
@@ -208,6 +239,12 @@ nav {
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+.container-nav {
+  & > span {
+    display: inline-block;
+    margin-right: 12px;
   }
 }
 </style>
