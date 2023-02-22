@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
-import Cascader from '../../../views/cascader/cascader.vue';
+import Cascader from '../../../views/Cascader/cascader.vue';
 
 describe('Cascader', () => {
   it('should render correctly when show is true', async () => {

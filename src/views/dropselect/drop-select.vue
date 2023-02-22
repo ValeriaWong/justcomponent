@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
+// eslint-disable-next-line import/no-unresolved
 import cascader from '../Cascader/cascader.vue';
 import singleDropselct from './single-dropselct.vue';
 import multipleDropselect from './multiple-dropselect.vue';

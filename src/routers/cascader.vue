@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import JustCacsader from '../views/cascader/cascader.vue'
+import JustCacsader from '../views/Cascader/cascader.vue'
 import JustDropSelect from '../views/dropselect/dropselect.vue';
 
 </script>

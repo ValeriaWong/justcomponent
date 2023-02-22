@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe ,test} from '@jest/globals';
-import Cascader from '../../views/cascader/cascader.vue';
+import Cascader from '../../views/Cascader/cascader.vue';
 
 describe('Cascader performance', () => {
 //   const levels = 3; // cascader的级数

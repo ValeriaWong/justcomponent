@@ -74,6 +74,7 @@
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
 
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { inputEmit, inputProps, useInput } from './index';
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement;
