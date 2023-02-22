@@ -10,9 +10,9 @@
     "preview": "vite preview",
     "lint:create": "eslint --init",
     "prepare": "husky install",
-    "lint": "eslint \"src/**/*.{js,vue,ts}\" --fix",
+    "lint": "eslint \"src/**/*.{js,vue,ts}\" ",
     "prettier-format": "prettier --config .prettierrc.cjs \"src/**/*.{vue,js,ts}\" --write",
-    "lint:css": "stylelint **/*.{css,sass,scss} --fix",
+    "lint:css": "stylelint **/*.{css,sass,scss} ",
     "test": "jest"
   },
   "dependencies": {
