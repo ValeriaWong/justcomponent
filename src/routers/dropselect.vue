@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import JustDropSelect from '../views/dropselect/dropselect.vue';
+import JustDropSelect from '../views/dropselect/drop-select.vue';
 
 </script>
 
