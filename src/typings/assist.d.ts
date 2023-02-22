@@ -1,1 +1,1 @@
-declare module "src/utils/assist.js";
+declare module 'src/utils/assist.js';

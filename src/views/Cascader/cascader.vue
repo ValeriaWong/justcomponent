@@ -63,7 +63,6 @@ const props = defineProps({
   },
 });
 
-
 // 控制下拉菜单出现和隐藏
 const show = ref(false);
 const toggle = () => {
@@ -109,9 +108,6 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
 
   single.value = tmp.join('/');
 };
-
-
-
 </script>
 
 <template>
@@ -122,7 +118,7 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
       size ? `my-dropselect-${size}` : '',
     ]"
   >
-      <div  class="common-wrapper" :class="disabled ? 'disabled' : ''">
+    <div class="common-wrapper" :class="disabled ? 'disabled' : ''">
       <div class="dropinput">
         <div
           class="dropinput--input-box"
@@ -200,8 +196,7 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
           </div>
         </div>
       </div>
-    </div> 
- 
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>

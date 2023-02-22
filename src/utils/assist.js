@@ -1,10 +1,10 @@
 function oneOf(value, validList) {
-    for (let i = 0; i < validList.length; i += 1) {
-        if (value === validList[i]) {
-            return true;
-        }
+  for (let i = 0; i < validList.length; i += 1) {
+    if (value === validList[i]) {
+      return true;
     }
-    return false;
+  }
+  return false;
 }
 
 export default oneOf;

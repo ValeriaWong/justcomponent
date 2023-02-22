@@ -8,7 +8,7 @@
         :disabled="disabled"
         :type="type"
         class="my-input-inner"
-        :class=" size ? `my-input-inner-${size}`:''"
+        :class="size ? `my-input-inner-${size}` : ''"
         autocomplete="off"
         :readonly="readonly"
         :value="nativeInputValue"
@@ -23,13 +23,16 @@
 
       <!-- suffix slot -->
       <!-- v-if="showIcon==true" -->
-      <div  class="my-input-suffix-icon">
-        
-        <span  class="suffix-icon-img">
-        <img  v-if="icon=='search'" src="../../assets/search.svg" alt="" />
-        <img  v-if="icon=='clear'" src="../../assets/clear.svg" alt="" />
-        <img  v-if="icon=='clearable'" src="../../assets/clearable.svg" alt="" />
-      </span>
+      <div class="my-input-suffix-icon">
+        <span class="suffix-icon-img">
+          <img v-if="icon == 'search'" src="../../assets/search.svg" alt="" />
+          <img v-if="icon == 'clear'" src="../../assets/clear.svg" alt="" />
+          <img
+            v-if="icon == 'clearable'"
+            src="../../assets/clearable.svg"
+            alt=""
+          />
+        </span>
         <!-- clearable -->
         <div
           class="close-icon"
@@ -163,7 +166,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 @import '../../styles/index';
 @include input-wrapper;
 </style>

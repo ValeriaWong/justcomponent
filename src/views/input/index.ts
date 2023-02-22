@@ -30,18 +30,15 @@ export const inputProps = {
   },
   size: {
     type: String,
-    default:'S',
-
+    default: 'S',
   },
-  icon:{
+  icon: {
     type: String,
-    
   },
   // showIcon:{
   //   type:Boolean,
   //   default:true,
   // }
-
 };
 
 export const inputEmit = [

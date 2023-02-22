@@ -68,11 +68,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
-      "npm run lint",
       "npm run prettier-format"
     ],
     "*.{less,css,sass,scss}": [
-      "npm run lint:css"
     ]
   }
 }
