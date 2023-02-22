@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
-import Dropselect from '../../views/dropselect/dropselect.vue'
+import Dropselect from '../../views/dropselect/drop-select.vue'
 
 describe('Dropselect', () => {
   it('renders in a reasonable time', () => {
