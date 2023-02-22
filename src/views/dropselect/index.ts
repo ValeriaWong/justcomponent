@@ -1,5 +1,5 @@
 // dropselect/index.js
 
-import DropSelect from './dropselect.vue';
+import DropSelect from './drop-select.vue';
 
 export default DropSelect;

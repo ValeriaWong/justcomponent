@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import cascader from '../cascader/cascader.vue';
+import cascader from '../Cascader/cascader.vue';
 import singleDropselct from './single-dropselct.vue';
 import multipleDropselect from './multiple-dropselect.vue';
 import singleLinkage from './single-linkage.vue';

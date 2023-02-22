@@ -74,7 +74,7 @@ const secondLevel = ref('');
 const thirdLevel = ref('');
 const levelSelected = ref([]);
 
-const toggle = (level: Number) => {
+const toggle = (level: number) => {
   if (props.disabled) return;
 
   switch (level) {

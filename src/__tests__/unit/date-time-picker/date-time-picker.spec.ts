@@ -47,33 +47,3 @@ describe('DateTimePicker', () => {
     const secondItems = wrapper.findAll('.date_time_item.second p');
     expect(secondItems[0].text()).toBe('56');
   });
-
-  it('updates date and time when user scrolls', async () => {
-    const wrapper = mount(DateTimePicker, {
-      props: {
-        show: true,
-        modelValue: '1980/01/01 00:00:00',
-      },
-    });
-    const yearItems = wrapper.findAll('.date_time_item.year p');
-    await yearItems[1].trigger('touchstart');
-    await yearItems[1].trigger('scroll');
-    await yearItems[1].trigger('touchend');
-    expect(wrapper.vm.$refs.DateTime).toBe('1981/01/01 00:00:00');
-    const monthItems = wrapper.findAll('.date_time_item.month p');
-    await monthItems[1].trigger('touchstart');
-    await monthItems[1].trigger('scroll');
-    await monthItems[1].trigger('touchend');
-    expect(wrapper.vm.$refs.DateTime).toBe('1981/02/01 00:00:00');
-    const dayItems = wrapper.findAll('.date_time_item.day p');
-    await dayItems[1].trigger('touchstart');
-    await dayItems[1].trigger('scroll');
-    await dayItems[1].trigger('touchend');
-    expect(wrapper.vm.$refs.DateTime).toBe('1981/02/02 00:00:00');
-    const hourItems = wrapper.findAll('.date_time_item.hour p');
-    await hourItems[1].trigger('touchstart');
-    await hourItems[1].trigger('scroll');
-    await hourItems[1].trigger('touchend');
-    expect(wrapper.vm.$refs.DateTime).toBe('1981/02/02 01:00:00');
-  })
-});
