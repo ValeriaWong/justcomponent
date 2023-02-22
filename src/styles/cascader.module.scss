@@ -1,0 +1,52 @@
+@charset "UTF-8";
+@import './common/themes.module.scss';
+
+@mixin cascader-wrapper{
+  .dropinput-wrapper {
+    display:flex;
+    flex-direction: row;
+  }
+  .--optionlist-cascader {
+    // display: flex;
+    flex-direction: row;
+    position:relative;
+    max-width:255px;
+    overflow-x: visible;
+    background-color: transparent;
+    // box-shadow: none!important;
+    div{
+    padding-left: 2px!important;
+    }
+    &-box{
+      background-color: transparent;
+      position: absolute;
+      left:0px;
+      flex-direction: column;
+      width: 87px;
+      height:$--optionlist-height;
+box-shadow: 0 0 5px 1px #b0b0b0;
+      &-sencondary,&-third{
+        position:relative;
+        right:0px;
+
+      }
+    }
+    .--optionlist-item{
+      &-first{
+      position: absolute;
+      left:0px;
+      flex-direction: row;
+    }
+    
+    &-secondary,
+    &-third {
+      
+      width:calc($--optionlist-cascader-width /3 - 4px)!important;
+      height:auto;
+      position:absolute;
+      right:0px;
+      top:0px;
+      flex-direction: column;
+    }
+  }
+  }}

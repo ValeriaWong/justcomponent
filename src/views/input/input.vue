@@ -8,6 +8,7 @@
         :disabled="disabled"
         :type="type"
         class="my-input-inner"
+        :class="size ? `my-input-inner-${size}` : ''"
         autocomplete="off"
         :readonly="readonly"
         :value="nativeInputValue"
@@ -15,14 +16,23 @@
         @blur="onBlur"
         @focus="onFocus"
         :placeholder="placeholder"
+        :icon="icon"
       />
       <!-- prefix slot -->
       <!-- 待定，后面有需要可以补充 -->
 
       <!-- suffix slot -->
-      <span class="my-input-suffix-icon">
-        <!-- <img class="suffix-icon-img" src="../../assets/image/search.png" alt="" /> -->
-
+      <!-- v-if="showIcon==true" -->
+      <div class="my-input-suffix-icon">
+        <span class="suffix-icon-img">
+          <img v-if="icon == 'search'" src="../../assets/search.svg" alt="" />
+          <img v-if="icon == 'clear'" src="../../assets/clear.svg" alt="" />
+          <img
+            v-if="icon == 'clearable'"
+            src="../../assets/clearable.svg"
+            alt=""
+          />
+        </span>
         <!-- clearable -->
         <div
           class="close-icon"
@@ -40,7 +50,7 @@
         >
           <!-- <img v-if="showPassword && !disabled" class="password-icon-img" src="../../assets/image/eye.png" alt="" /> -->
         </div>
-      </span>
+      </div>
     </template>
 
     <!-- textarea -->
@@ -79,6 +89,8 @@ const {
   placeholder,
   readonly,
   nativeInputValue,
+  size,
+  icon,
 } = useInput(props, emits);
 
 const input = ref<HTMLInputElement>();
@@ -154,134 +166,6 @@ export default {
 </script>
 
 <style lang="scss">
-$active-color: #87ceeb;
-// https: //encycolorpedia.cn/ 可查各种颜色
-
-.my-input {
-  margin: 1px;
-  width: 100%;
-  cursor: pointer;
-  position: relative;
-
-  // &.my-input-suffix-icon  {
-  //   padding-right: 30px;
-  // }
-
-  &-inner {
-    position: relative;
-    cursor: pointer;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    background-color: #fff;
-    background-image: none;
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    box-sizing: border-box;
-    color: #606266;
-    display: inline-block;
-    font-size: inherit;
-    outline: none;
-    padding: 0 15px;
-    //适合白色背景，后面可以调整，比如黑色背景选白字
-    color: black;
-    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-
-    &:hover {
-      border-color: #87cefa;
-    }
-
-    &:active,
-    &:focus {
-      outline: none;
-      border-color: $active-color;
-      box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
-    }
-
-    &::placeholder {
-      color: rgb(213, 215, 220);
-      font-size: inherit;
-    }
-  }
-
-  &.is-disabled {
-    .my-input-inner {
-      cursor: not-allowed;
-      background-color: #fafafc;
-      color: rgba(194, 194, 194, 1);
-
-      &:hover,
-      &:focus,
-      &:active {
-        border: 1px solid #dcdfe6;
-        box-shadow: none;
-      }
-    }
-  }
-
-  .close-icon,
-  .password-icon {
-    display: none;
-  }
-
-  &:hover .close-icon,
-  &:focus .close-icon,
-  &:hover .password-icon,
-  &:focus .password-icon,
-  .suffix-icon {
-    margin: 0 1px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .my-icon {
-      color: #dcdfe6;
-
-      &:hover {
-        color: #c0c4cc;
-      }
-    }
-  }
-
-  .suffix-icon .my-icon:hover {
-    color: #dcdfe6;
-  }
-}
-
-.my-textarea {
-  width: 100%;
-
-  .my-textarea-inner {
-    display: block;
-    resize: vertical;
-    padding: 5px 15px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    width: 100%;
-    font-size: inherit;
-    color: black;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-
-    &:hover {
-      border-color: #87cefa;
-    }
-
-    &:active,
-    &:focus {
-      outline: none;
-      border-color: $active-color;
-      box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
-    }
-
-    &::placeholder {
-      color: rgb(213, 215, 220);
-      font-size: inherit;
-    }
-  }
-}
+@import '../../styles/index';
+@include input-wrapper;
 </style>

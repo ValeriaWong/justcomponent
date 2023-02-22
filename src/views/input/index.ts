@@ -28,6 +28,17 @@ export const inputProps = {
     type: Boolean,
     default: false,
   },
+  size: {
+    type: String,
+    default: 'S',
+  },
+  icon: {
+    type: String,
+  },
+  // showIcon:{
+  //   type:Boolean,
+  //   default:true,
+  // }
 };
 
 export const inputEmit = [
@@ -41,6 +52,8 @@ export const inputEmit = [
 // eslint-disable-next-line no-unused-vars
 export const useInput = (props: any, emits: any) => {
   const disabled = computed(() => props.disabled);
+  const icon = computed(() => props.icon);
+  const size = computed(() => props.size);
   const placeholder = computed(() => props.placeholder);
   const clearable = computed(() => props.clearable);
 
@@ -81,5 +94,7 @@ export const useInput = (props: any, emits: any) => {
     placeholder,
     readonly,
     nativeInputValue,
+    icon,
+    size,
   };
 };
