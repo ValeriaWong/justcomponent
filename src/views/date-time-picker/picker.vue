@@ -208,7 +208,7 @@ const setDateTime = (key: string, val: string) => {
       for (
         let i = 1;
         i <= backYearOrDay(Number(newTimeData[1]), Number(newTimeData[0]));
-        i++
+        i += 1
       ) {
         pickerData.date.day.data.push(i);
       }
@@ -295,23 +295,23 @@ const init = () => {
   // time[4] = minute.toString()
   // time[5] = second.toString()
   // eslint-disable-next-line no-plusplus
-  for (let i = 1980; i < 2100; i++) {
+  for (let i = 1980; i < 2100; i += 1) {
     pickerData.date.year.data.push(i);
   }
   // eslint-disable-next-line no-plusplus
-  for (let i = 1; i < 13; i++) {
+  for (let i = 1; i < 13; i += 1) {
     pickerData.date.month.data.push(i);
   }
   // eslint-disable-next-line no-plusplus
-  for (let i = 1; i <= backYearOrDay(month, Number(time[0])); i++) {
+  for (let i = 1; i <= backYearOrDay(month, Number(time[0])); i += 1) {
     pickerData.date.day.data.push(i);
   }
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 24; i += 1) {
     pickerData.time.hour.data.push(i);
   }
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 60; i += 1) {
     pickerData.time.minute.data.push(i);
     pickerData.time.second.data.push(i);
   }
