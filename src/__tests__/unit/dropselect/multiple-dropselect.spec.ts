@@ -1,10 +1,10 @@
 import { mount } from "@vue/test-utils";
 import { expect, describe, it } from '@jest/globals';
-import MutipleDropselect from '../../views/dropselect/multiple-dropselect.vue'
+import MultipleDropSelect from '../../../views/dropselect/multiple-dropselect.vue'
 
-describe("MutipleDropselect", () => {
+describe("MultipleDropSelect", () => {
   it("renders correctly", () => {
-    const wrapper = mount(MutipleDropselect, {
+    const wrapper = mount(<any>MultipleDropSelect, {
       props: {
         show: false,
         search: true,
@@ -21,7 +21,7 @@ describe("MutipleDropselect", () => {
   });
 
   it("disables the component when the disabled prop is set to true", () => {
-    const wrapper = mount(MutipleDropselect, {
+    const wrapper = mount(<any>MultipleDropSelect, {
       props: {
         show: false,
         search: true,
@@ -38,7 +38,7 @@ describe("MutipleDropselect", () => {
   });
 
   it("shows the dropdown menu when the component is clicked", async () => {
-    const wrapper = mount(MutipleDropselect, {
+    const wrapper = mount(<any>MultipleDropSelect, {
       props: {
         show: false,
         search: true,
@@ -56,7 +56,7 @@ describe("MutipleDropselect", () => {
   });
 
   it("toggles the dropdown menu when the component is clicked", async () => {
-    const wrapper = mount(MutipleDropselect, {
+    const wrapper = mount(<any>MultipleDropSelect, {
       props: {
         show: false,
         search: true,
@@ -76,7 +76,7 @@ describe("MutipleDropselect", () => {
   });
 
   it("clears all selected options when the clear button is clicked", async () => {
-    const wrapper = mount(MutipleDropselect, {
+    const wrapper = mount(<any>MultipleDropSelect, {
       props: {
         show: false,
         search: true,
@@ -99,7 +99,7 @@ describe("MutipleDropselect", () => {
   });
 
   it("selects an option when clicked", async () => {
-    const wrapper = mount(MutipleDropselect, {
+    const wrapper = mount(<any>MultipleDropSelect, {
       props: {
         show: false,
         search: true,
@@ -116,5 +116,55 @@ describe("MutipleDropselect", () => {
     const option = wrapper.find(".--optionlist--option");
     await option.trigger("click");
     expect(wrapper.vm.$refs.selected).toEqual([option.text()]);
+  });
+});
+
+
+describe('MultipleDropSelect', () => {
+  it('should render input and options correctly', () => {
+    const wrapper = mount(<any>MultipleDropSelect);
+    expect(wrapper.find('.dropinput--input-box').exists()).toBe(true);
+    expect(wrapper.find('.--optionlist').exists()).toBe(false);
+    wrapper.find('.dropinput--input-box').trigger('click');
+    expect(wrapper.find('.--optionlist').exists()).toBe(true);
+  });
+
+  it('should render selected options correctly', async () => {
+    const wrapper = mount(<any>MultipleDropSelect);
+    wrapper.find('.dropinput--input-box').trigger('click');
+    await wrapper.vm.$nextTick();
+    wrapper.find('.option-item').trigger('click');
+    expect(wrapper.find('.dropinput--muti-option-box--text').text()).toBe('Option 1');
+  });
+
+  it('should search options correctly', async () => {
+    const wrapper = mount(<any>MultipleDropSelect);
+    wrapper.find('.dropinput--input-box').trigger('click');
+    await wrapper.vm.$nextTick();
+    wrapper.find('.--optionlist--search-input').setValue('2');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findAll('.option-item').length).toBe(2);
+    expect(wrapper.find('.option-item:first-child').text()).toBe('Option 2-1');
+  });
+
+  it('should clear selected options correctly', async () => {
+    const wrapper = mount(<any>MultipleDropSelect);
+    wrapper.find('.dropinput--input-box').trigger('click');
+    await wrapper.vm.$nextTick();
+    wrapper.find('.option-item').trigger('click');
+    expect(wrapper.find('.dropinput--muti-option-box--text').text()).toBe('Option 1');
+    wrapper.find('.dropinput--muti-option-box--text + span').trigger('click');
+    expect(wrapper.find('.dropinput--muti-option-box--text').exists()).toBe(false);
+  });
+
+  it('should clear all selected options correctly', async () => {
+    const wrapper = mount(<any>MultipleDropSelect);
+    wrapper.find('.dropinput--input-box').trigger('click');
+    await wrapper.vm.$nextTick();
+    wrapper.find('.option-item').trigger('click');
+    expect(wrapper.find('.dropinput--muti-option-box--text').text()).toBe('Option 1');
+    expect(wrapper.find('.dropinput--clearable').exists()).toBe(true);
+    wrapper.find('.dropinput--clearable').trigger('click');
+    expect(wrapper.find('.dropinput--muti-option-box--text').exists()).toBe(false);
   });
 });

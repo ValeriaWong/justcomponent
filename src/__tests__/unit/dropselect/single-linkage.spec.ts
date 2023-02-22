@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { expect, describe, it } from '@jest/globals';
-import SingleLinkageDropselect from '../../views/dropselect/single-dropselct.vue'
+import SingleLinkageDropselect from '../../../views/dropselect/single-dropselct.vue'
 
 describe('SingleLinkageDropselect', () => {
   it('renders a placeholder when no option is selected', () => {

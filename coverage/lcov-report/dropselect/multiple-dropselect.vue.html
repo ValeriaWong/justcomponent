@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.02% </span>
+                <span class="strong">91.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>161/185</span>
+                <span class='fraction'>170/185</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.02% </span>
+                <span class="strong">91.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>161/185</span>
+                <span class='fraction'>170/185</span>
             </div>
         
             
@@ -302,8 +302,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -323,16 +323,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -486,9 +486,9 @@ const props = defineProps({
 const optionActive = ref(false);
 // 控制下拉菜单出现和隐藏
 const show = ref(false);
-const toggle = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (props.disabled) return;</span>
-<span class="cstat-no" title="statement not covered" >  show.value = !show.value;</span>
+const toggle = () =&gt; {
+  if (props.disabled) <span class="branch-0 cbranch-no" title="branch not covered" >return;</span>
+  show.value = !show.value;
 };
 &nbsp;
 // 多选
@@ -507,17 +507,17 @@ const handleClick = <span class="fstat-no" title="function not covered" >(cityNa
 <span class="cstat-no" title="statement not covered" >  }</span>
 };
 // 远程搜索的逻辑
-const formatList = <span class="fstat-no" title="function not covered" >(rawData: Record&lt;string, string&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (searchData.value === '') {</span>
-<span class="cstat-no" title="statement not covered" >    return rawData;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >  const tmpData = JSON.parse(JSON.stringify(rawData));</span>
-<span class="cstat-no" title="statement not covered" >  Object.keys(rawData).forEach((key) =&gt; {</span>
+const formatList = (rawData: Record&lt;string, string&gt;) =&gt; {
+  if (searchData.value === '') {
+    return rawData;
+  }
+  const tmpData = JSON.parse(JSON.stringify(rawData));
+  Object.keys(rawData).forEach((key) =&gt; {
 <span class="cstat-no" title="statement not covered" >    if (rawData[key].indexOf(searchData.value) === -1) {</span>
 <span class="cstat-no" title="statement not covered" >      delete tmpData[key];</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >  return tmpData;</span>
+  });
+  return tmpData;
 };
 const clearByIndex = <span class="fstat-no" title="function not covered" >(index: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  selected.value.splice(index, 1);</span>
@@ -625,7 +625,7 @@ const clearable = <span class="fstat-no" title="function not covered" >() =&gt; 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T13:54:00.045Z
+                at 2023-02-22T20:33:27.599Z
             </div>
         <script src="../prettify.js"></script>
         <script>

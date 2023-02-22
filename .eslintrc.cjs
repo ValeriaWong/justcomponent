@@ -11,7 +11,7 @@ module.exports = {
   // eslint-config-prettier 提供的
   // eslint-config- 前缀可以简写
   // https://eslint.vuejs.org/rules/valid-v-if.html
-  extends: ['plugin:vue/vue3-strongly-recommended', 'airbnb-base', 'prettier'],
+  extends: ['plugin:vue/vue3-strongly-recommended', 'plugin:import/typescript', 'airbnb-base', 'prettier'],
   // ESLint 会对我们的代码进行校验，而 parser 的作用是将我们写的代码转换为 ESTree（AST），ESLint 会对 ESTree 进行校验
   parser: 'vue-eslint-parser',
   // 解析器的配置项

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
 // import { Component } from 'vue';
-import MyButton from '../../views/button/button.vue';
+import MyButton from '../../../views/button/button.vue';
 
 // test('mounts a component', () => {
 //   const div = document.createElement('div')

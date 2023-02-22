@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
-import Avatar from '../../views/avatar/avatar.vue';
+import Avatar from '../../../views/avatar/avatar.vue';
 
 describe('Avatar', () => {
   it('should render with default props', () => {
