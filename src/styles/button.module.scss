@@ -3,13 +3,21 @@
 
 @mixin button-wrapper {
   margin-right: 10px;
+  width: fit-content;
+  max-width: 170px;
   font-size: $--font-size-medium;
   color: $--font-color-main; //文本主色
   outline: none;
   border: 1px dotted transparent;
   padding: 0 10px;
   cursor: pointer;
-
+  overflow:auto;
+  /* 隐藏 Chrome、Safari 和 Opera 的滚动条 */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &-wrapper {
     display: flex;
     align-items: center;
@@ -25,17 +33,17 @@
 
   //控制大小
   &-L {
-    width: auto;
+ 
     height: 40px;
     font-size: $--font-size-large;
   }
   &-M {
-    width: auto;
+
     height: 32px;
     font-size: $--font-size-medium;
   }
   &-S {
-    width: auto;
+   
     height: 24px;
     font-size: $--font-size-small;
   }
@@ -89,6 +97,7 @@
     &:disabled {
       background-color: rgba($--color-disabled, 1);
       color: $--font-color-disabled;
+      cursor:not-allowed;
     }
   }
 
@@ -108,6 +117,8 @@
     &:disabled {
       background-color: rgba($--color-disabled, 1);
       color: $--font-color-disabled;
+      border:1px solid transparent;
+      cursor:not-allowed;
     }
   }
   &-revert {
@@ -127,8 +138,10 @@
       color: rgba($--font-color-main, 1);
     }
     &:disabled {
+      border: 1px solid transparent;
       background-color: rgba($--color-disabled, 1);
       color: $--font-color-disabled;
+      cursor:not-allowed;
     }
   }
   &-icon {
