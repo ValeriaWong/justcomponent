@@ -174,7 +174,7 @@
       </div>
     </div>
     <div class="datetime-picker-wrapper" v-if="type == 'dateTimePicker'">
-    <JustDatetimePicker></JustDatetimePicker>
+      <JustDatetimePicker></JustDatetimePicker>
     </div>
   </Space>
 </template>
@@ -218,7 +218,7 @@ import JustButton from './views/button/button.vue';
 import JustButtonLoading from './views/button/loadingbutton.vue';
 import JustAvatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
-import JustDropSelect from './views/dropselect/dropselect.vue';
+import JustDropSelect from './views/dropselect/drop-select.vue';
 import JustInput from './views/input/input.vue';
 import JustDatetimePicker from './views/date-time-picker/picker.vue';
 

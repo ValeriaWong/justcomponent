@@ -70,7 +70,6 @@
     "*.{js,jsx,vue,ts,tsx}": [
       "npm run prettier-format"
     ],
-    "*.{less,css,sass,scss}": [
-    ]
+    "*.{less,css,sass,scss}": []
   }
 }
