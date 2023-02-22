@@ -76,7 +76,6 @@ const single = ref();
 // };
 
 // 级联选择
-const setCascaderBox = ref('');
 
 const levelSelected = ref([]);
 const handleLevelSelect = (level: number, index: number, text: string) => {
@@ -93,17 +92,14 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
     levelSelected.value = [];
     levelSelected.value.push(index);
     tmp.push(text);
-    setCascaderBox.value = 'width: 170px!important;';
   } else if (level === 1) {
     levelSelected.value = [levelSelected.value[0]];
     levelSelected.value.push(index);
     tmp = [tmp[0], text];
-    setCascaderBox.value = 'width: 255px!important;';
   } else {
     levelSelected.value = [levelSelected.value[0], levelSelected.value[1]];
     levelSelected.value.push(index);
     tmp = [tmp[0], tmp[1], text];
-    // setCascaderBox.value='width: 255px!important;';
   }
 
   single.value = tmp.join('/');

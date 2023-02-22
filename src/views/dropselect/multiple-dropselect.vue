@@ -71,6 +71,7 @@ const handleClick = (cityName: string, index: number) => {
     selected.value.pop();
   }
 };
+// 远程搜索的逻辑
 const formatList = (rawData: Record<string, string>) => {
   if (searchData.value === '') {
     return rawData;

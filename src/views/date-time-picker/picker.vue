@@ -9,7 +9,6 @@
         <span :class="type == 1 ? 'active' : ''" @click="type = 1">时间</span>
       </div>
       <div class="ok">
-        // eslint-disable-next-line vue/no-mutating-props
         <span style="float: right" @click="show = false">取消</span>
         <span style="float: right" @click="backTime">确认</span>
       </div>
@@ -76,13 +75,7 @@
 import { ref, reactive, onMounted, defineProps, watch } from 'vue';
 
 const show = ref();
-
 const props = defineProps({
-  // show: {
-  //   type: Boolean,
-  //   required: true,
-  //   default: () => false,
-  // },
   modelValue: {
     type: String,
     required: true,
@@ -206,7 +199,7 @@ const setDateTime = (key: string, val: string) => {
       newTimeData.splice(5, 2, ...formatTime(Number(val) + 1).split(''));
       pickerData.date.day.data = [];
       //  月份改变日期改变
-      // eslint-disable-next-line no-plusplus
+
       for (
         let i = 1;
         i <= backYearOrDay(Number(newTimeData[1]), Number(newTimeData[0]));
@@ -296,23 +289,18 @@ const init = () => {
   // time[3] = hour.toString()
   // time[4] = minute.toString()
   // time[5] = second.toString()
-  // eslint-disable-next-line no-plusplus
   for (let i = 1980; i < 2100; i += 1) {
     pickerData.date.year.data.push(i);
   }
-  // eslint-disable-next-line no-plusplus
   for (let i = 1; i < 13; i += 1) {
     pickerData.date.month.data.push(i);
   }
-  // eslint-disable-next-line no-plusplus
   for (let i = 1; i <= backYearOrDay(month, Number(time[0])); i += 1) {
     pickerData.date.day.data.push(i);
   }
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 24; i += 1) {
     pickerData.time.hour.data.push(i);
   }
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 60; i += 1) {
     pickerData.time.minute.data.push(i);
     pickerData.time.second.data.push(i);
@@ -356,145 +344,7 @@ export default {
 };
 </script>
 
-<style scoped>
-@keyframes show {
-  0% {
-    transform: translateY(100%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-#date_time_picker_box {
-  width: 100vw;
-  background: white;
-  position: fixed;
-  transition: all linear 0.2s;
-  bottom: 0;
-  animation: show 0.2s linear;
-}
-
-.date_chose_box {
-  display: flex;
-  background: #0088ff;
-  position: relative;
-  z-index: 5;
-  font-size: 16px;
-  height: 30px;
-  justify-content: space-between;
-}
-
-.date_chose_box .chose {
-  display: flex;
-  align-items: center;
-}
-
-.date_chose_box .ok {
-  display: flex;
-  align-items: center;
-}
-
-.date_chose_box span {
-  margin: 5px;
-  color: rgba(232, 243, 255, 0.8);
-}
-
-.date_chose_box .active {
-  margin: 5px;
-  color: #ffffff;
-}
-
-.date_box {
-  display: flex;
-  height: 169px;
-  padding: 0 20px;
-  overflow-y: scroll;
-}
-
-.date_box::after {
-  content: '';
-  width: 100%;
-  height: 1px;
-  position: absolute;
-  top: 132px;
-  left: 0;
-  background: #1d212954;
-}
-
-.date_box::before {
-  content: '';
-  width: 100%;
-  height: 1px;
-  position: absolute;
-  top: 80px;
-  left: 0;
-  background: #1d212954;
-}
-
-.date_box > .date_time_item > p {
-  font-size: 16px;
-  height: 50px;
-  line-height: 50px;
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.date_box > .date_time_item > .active_time {
-  color: #0088ff;
-}
-
-.date_box > .date_time_item > active_item {
-  color: #0088ff;
-}
-
-.date_box > .unit {
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.date_box > .unit > .unit_item {
-  height: 50px;
-  line-height: 50px;
-  box-sizing: border-box;
-}
-
-.date_time_item {
-  flex: 1;
-  overflow-y: scroll;
-  height: 150px;
-  user-select: none;
-  position: relative;
-}
-
-#date_time_picker_box::before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 40px;
-  top: 30px;
-  background: red;
-  background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.62));
-  z-index: 99;
-}
-
-#date_time_picker_box::after {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 50px;
-  bottom: 6px;
-  background: red;
-  background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0.62));
-  z-index: 99;
-}
-
-.date_time_item::-webkit-scrollbar {
-  display: none !important;
-}
+<style lang="scss" scoped>
+@import '../../styles/index';
+@include date-time-picker-wrapper;
 </style>

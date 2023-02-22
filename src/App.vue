@@ -173,6 +173,9 @@
         <JustDropSelect type="single-cascader" disabled />
       </div>
     </div>
+    <div class="datetime-picker-wrapper" v-if="type == 'dateTimePicker'">
+    <JustDatetimePicker></JustDatetimePicker>
+    </div>
   </Space>
 </template>
 
@@ -217,6 +220,7 @@ import JustAvatar from './views/avatar/avatar.vue';
 import imgUrl from './assets/image/avatar.png';
 import JustDropSelect from './views/dropselect/dropselect.vue';
 import JustInput from './views/input/input.vue';
+import JustDatetimePicker from './views/date-time-picker/picker.vue';
 
 const value = ref('请输入');
 const value1 = ref('输入文本');

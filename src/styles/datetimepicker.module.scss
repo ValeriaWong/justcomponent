@@ -1,0 +1,145 @@
+@charset "UTF-8";
+@import './common/themes.module.scss';
+
+@mixin date-time-picker-wrapper {
+@keyframes show {
+    0% {
+      transform: translateY(100%);
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  #date_time_picker_box {
+    width: 100vw;
+    background: white;
+    position: fixed;
+    transition: all linear 0.2s;
+    bottom: 0;
+    animation: show 0.2s linear;
+  }
+  
+  .date_chose_box {
+    display: flex;
+    background: #0088ff;
+    position: relative;
+    z-index: 5;
+    font-size: 16px;
+    height: 30px;
+    justify-content: space-between;
+  }
+  
+  .date_chose_box .chose {
+    display: flex;
+    align-items: center;
+  }
+  
+  .date_chose_box .ok {
+    display: flex;
+    align-items: center;
+  }
+  
+  .date_chose_box span {
+    margin: 5px;
+    color: rgba(232, 243, 255, 0.8);
+  }
+  
+  .date_chose_box .active {
+    margin: 5px;
+    color: #ffffff;
+  }
+  
+  .date_box {
+    display: flex;
+    height: 169px;
+    padding: 0 20px;
+    overflow-y: scroll;
+  }
+  
+  .date_box::after {
+    content: '';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: 132px;
+    left: 0;
+    background: #1d212954;
+  }
+  
+  .date_box::before {
+    content: '';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    background: #1d212954;
+  }
+  
+  .date_box > .date_time_item > p {
+    font-size: 16px;
+    height: 50px;
+    line-height: 50px;
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+  .date_box > .date_time_item > .active_time {
+    color: #0088ff;
+  }
+  
+  .date_box > .date_time_item > active_item {
+    color: #0088ff;
+  }
+  
+  .date_box > .unit {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .date_box > .unit > .unit_item {
+    height: 50px;
+    line-height: 50px;
+    box-sizing: border-box;
+  }
+  
+  .date_time_item {
+    flex: 1;
+    overflow-y: scroll;
+    height: 150px;
+    user-select: none;
+    position: relative;
+  }
+  
+  #date_time_picker_box::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    top: 30px;
+    background: red;
+    background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.62));
+    z-index: 99;
+  }
+  
+  #date_time_picker_box::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    bottom: 6px;
+    background: red;
+    background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0.62));
+    z-index: 99;
+  }
+  
+  .date_time_item::-webkit-scrollbar {
+    display: none !important;
+  }
+}
