@@ -75,12 +75,14 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineProps, watch } from 'vue';
 
+const show = ref();
+
 const props = defineProps({
-  show: {
-    type: Boolean,
-    required: true,
-    default: () => false,
-  },
+  // show: {
+  //   type: Boolean,
+  //   required: true,
+  //   default: () => false,
+  // },
   modelValue: {
     type: String,
     required: true,
