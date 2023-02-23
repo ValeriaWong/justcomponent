@@ -16,8 +16,8 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   // 测试文件
-  testMatch: ['<rootDir>/src/__tests__/unit/**/*.spec.(ts|tsx|js)'],
-  // testMatch: ['<rootDir>/src/__tests__/unit/**/*.spec.(ts|tsx|js)','<rootDir>/src/__tests__/performance/*.perf.spec.(ts|tsx|js)'],
+  // testMatch: ['<rootDir>/src/__tests__/unit/**/*.spec.(ts|tsx|js)'],
+  testMatch: ['<rootDir>/src/__tests__/unit/**/*.spec.(ts|tsx|js)','<rootDir>/src/__tests__/performance/*.perf.spec.(ts|tsx|js)'],
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: ['/node_modules/'],
   // eslint-disable-next-line no-dupe-keys

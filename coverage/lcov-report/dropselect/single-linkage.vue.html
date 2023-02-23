@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>287/287</span>
+                <span class='fraction'>270/270</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>287/287</span>
+                <span class='fraction'>270/270</span>
             </div>
         
             
@@ -333,41 +333,7 @@
 <a name='L268'></a><a href='#L268'>268</a>
 <a name='L269'></a><a href='#L269'>269</a>
 <a name='L270'></a><a href='#L270'>270</a>
-<a name='L271'></a><a href='#L271'>271</a>
-<a name='L272'></a><a href='#L272'>272</a>
-<a name='L273'></a><a href='#L273'>273</a>
-<a name='L274'></a><a href='#L274'>274</a>
-<a name='L275'></a><a href='#L275'>275</a>
-<a name='L276'></a><a href='#L276'>276</a>
-<a name='L277'></a><a href='#L277'>277</a>
-<a name='L278'></a><a href='#L278'>278</a>
-<a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a>
-<a name='L282'></a><a href='#L282'>282</a>
-<a name='L283'></a><a href='#L283'>283</a>
-<a name='L284'></a><a href='#L284'>284</a>
-<a name='L285'></a><a href='#L285'>285</a>
-<a name='L286'></a><a href='#L286'>286</a>
-<a name='L287'></a><a href='#L287'>287</a>
-<a name='L288'></a><a href='#L288'>288</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L271'></a><a href='#L271'>271</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -662,20 +628,6 @@ const props = defineProps({
   group: Boolean,
   clearable: Boolean,
   disabled: Boolean,
-  placement: {
-    type: String,
-    // validator(value) {
-    //   return oneOf(value, [
-    //     'left-bottom', //常规位置,控件位置在左侧,下方左对⻬
-    //     'right-bottom', //当控件位置在浏览器右侧,且内容宽度被浏览器遮挡。下方右对⻬
-    //     'left-top', //当控件位置在左下⻆,并且内容易被遮挡,上方左对⻬
-    //     'right-top', //当控件位置在右下⻆,并且内容易被遮挡,上方右对⻬
-    //     'left-aside', //当下拉菜单过高,且上下位置不可展示,可侧边展开菜单
-    //     'right-aside',
-    //   ]);
-    // },
-    default: 'left-bottom',
-  },
   type: {
     type: String,
     // validator(value) {
@@ -712,8 +664,8 @@ const firstLevel = ref('');
 const secondLevel = ref('');
 const thirdLevel = ref('');
 const levelSelected = ref([]);
-&nbsp;
-const toggle = (level: Number) =&gt; {
+const isdisabled = ref(false);
+const toggle = (level: number) =&gt; {
   if (props.disabled) return;
 &nbsp;
   switch (level) {
@@ -744,9 +696,21 @@ const handleLevelSelect = (level: number, index: number, text: string) =&gt; {
     levelSelected.value.push(index);
     secondLevel.value = text;
     thirdLevel.value = '';
+    if (
+      !levelList.value[levelSelected.value[0]].children[index].children ||
+      levelList.value[levelSelected.value[0]].children[index].children
+        .length === 0
+    ) {
+      thirdLevel.value = '';
+      levelSelected.value.splice(2, 1);
+    }
     showFirst.value = false;
     showSecond.value = false;
-    showThird.value = true;
+    showThird.value =
+      levelList.value[levelSelected.value[0]].children[index].children &amp;&amp;
+      levelList.value[levelSelected.value[0]].children[index].children.length &gt;
+        0;
+      isdisabled.value = showThird.value === false ;  
   } else {
     levelSelected.value = [levelSelected.value[0], levelSelected.value[1]];
     levelSelected.value.push(index);
@@ -844,7 +808,7 @@ const handleLevelSelect = (level: number, index: number, text: string) =&gt; {
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      &lt;div class="thirdlevel-wrapper"&gt;
+      &lt;div class="thirdlevel-wrapper" :class="isdisabled ? `disabled` : ''"&gt;
         &lt;div class="dropinput"&gt;
           &lt;div
             class="dropinput--input-box"
@@ -888,26 +852,12 @@ const handleLevelSelect = (level: number, index: number, text: string) =&gt; {
             &lt;span v-text="item.text"&gt;&lt;/span&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-&nbsp;
-        &lt;div
-          v-else-if="
-            showThird &amp;&amp;
-            levelList[levelSelected[0]].children[levelSelected[1]].children
-              .length === 0
-          "
-          class="--optionlist"
-          v-text="'无第三级元素'"
-          @show="thirdLevel = 'no children!'"
-          style="cursor: not-allowed; color: #999"
-        &gt;&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 &lt;style lang="scss" scoped&gt;
 @import '../../styles/index';
-&nbsp;
-// @include cascader-wrapper;
 @include dropselect-wrapper;
 .common-wrapper {
   display: flex;
@@ -917,7 +867,6 @@ const handleLevelSelect = (level: number, index: number, text: string) =&gt; {
   .thirdlevel-wrapper {
     display: flex;
     flex-direction: column;
-&nbsp;
     .--optionlist {
       height: fit-content;
     }
@@ -931,7 +880,7 @@ const handleLevelSelect = (level: number, index: number, text: string) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T20:33:27.599Z
+                at 2023-02-23T11:36:26.962Z
             </div>
         <script src="../prettify.js"></script>
         <script>
