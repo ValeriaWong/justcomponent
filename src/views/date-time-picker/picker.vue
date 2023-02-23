@@ -1,350 +1,407 @@
-<!-- eslint-disable vue/no-unused-vars -->
-<!-- eslint-disable vue/require-v-for-key -->
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <div id="date_time_picker_box">
-    <div class="date_chose_box">
-      <div class="chose">
-        <span :class="type == 0 ? 'active' : ''" @click="type = 0">日期</span>
-        <span :class="type == 1 ? 'active' : ''" @click="type = 1">时间</span>
-      </div>
-      <div class="ok">
-        <span style="float: right" @click="show = false">取消</span>
-        <span style="float: right" @click="backTime">确认</span>
-      </div>
-    </div>
-    <!--      日期-->
-    <div class="date_box" v-show="type == 0">
-      <template v-for="(dateValue, key, index) in pickerData.date">
-        <div
-          class="date_time_item"
-          :id="key"
-          @touchstart="isStop(true, key)"
-          @touchend="isStop(false, key)"
-          @scroll="scrolle($event, key)"
-        >
-          <p id="scynull1"></p>
-          <p
-            :class="[key + item, className(key, formatTime(item))]"
-            v-for="(item, index) in dateValue.data"
-            :key="item"
+  <div
+    class="datepicker"
+    :class="{
+      'datepicker-range': range,
+      datepicker__clearable: clearable && text && !disabled,
+    }"
+  >
+    <input
+      readonly
+      :value="text"
+      :class="[show ? 'focus' : '', inputClass]"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      :name="name"
+      v-if="type !== 'inline'"
+    />
+    <a class="datepicker-close" @click.stop="cls"></a>
+    <transition name="datepicker-anim">
+      <div
+        class="datepicker-popup"
+        :class="[popupClass, { 'datepicker-inline': type === 'inline' }]"
+        tabindex="-1"
+        v-if="show || type === 'inline'"
+      >
+        <template v-if="range">
+          <vue-datepicker-local-calendar
+            v-model="dates[0]"
+            :left="true"
+          ></vue-datepicker-local-calendar>
+          <vue-datepicker-local-calendar
+            v-model="dates[1]"
+            :right="true"
+          ></vue-datepicker-local-calendar>
+        </template>
+        <template v-else>
+          <vue-datepicker-local-calendar
+            v-model="dates[0]"
+          ></vue-datepicker-local-calendar>
+        </template>
+        <div v-if="showButtons" class="datepicker__buttons">
+          <button
+            @click.prevent.stop="cancel"
+            class="datepicker__button-cancel"
           >
-            {{ item }}
-          </p>
-          <p id="scynul2l" style="height: 70px"></p>
-        </div>
-        <div class="unit">
-          <div class="unit_item">
-            {{ dateValue.unit }}
-          </div>
-        </div>
-      </template>
-    </div>
-    <!--      时间-->
-    <div class="time_box date_box" v-show="type == 1">
-      // eslint-disable-next-line vue/no-unused-vars
-      <template v-for="(dateValue, key, index) in pickerData.time">
-        <div
-          class="date_time_item"
-          :id="key"
-          @touchstart="isStop(true, key)"
-          @touchend="isStop(false, key)"
-          @scroll="scrolle($event, key)"
-        >
-          <p></p>
-          <p
-            :class="[key + item, className(key, formatTime(item))]"
-            v-for="(item, index) in dateValue.data"
-            :key="item"
+            {{ this.local.cancelTip }}
+          </button>
+          <button
+            @click.prevent.stop="submit"
+            class="datepicker__button-select"
           >
-            {{ formatTime(item) }}
-          </p>
-          <p style="height: 70px"></p>
+            {{ this.local.submitTip }}
+          </button>
         </div>
-        <div class="unit">
-          <div class="unit_item">
-            {{ dateValue.unit }}
-          </div>
-        </div>
-      </template>
-    </div>
+      </div>
+    </transition>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, watch } from 'vue';
+<script lang="js">
+import DatePickerCalendar from './datePickerCalendar.vue'
 
-const show = ref();
-const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true,
-    default: () => '2000/01/01 00:00:00',
-  },
-});
-// YYYY-mm-dd
-const DateTime = ref('1980/01/01 00:00:00');
-// dom数据
-const pickerData = reactive({
-  date: {
-    year: {
-      unit: '年',
-      data: [] as number[],
-    },
-    month: {
-      unit: '月',
-      data: [] as number[],
-    },
-    day: {
-      unit: '日',
-      data: [] as number[],
-    },
-  },
-  time: {
-    hour: {
-      unit: '时',
-      data: [] as number[],
-    },
-    minute: {
-      unit: '分',
-      data: [] as number[],
-    },
-    second: {
-      unit: '秒',
-      data: [] as number[],
-    },
-  },
-});
-const emit = defineEmits(['update:modelValue']);
-const type = ref(0);
-const stop = ref(false);
-// 存放dom元素
-let refScrollTarget: { scrollTop: any } | null = null;
-// 延时器
-let timer: any = null;
-// 判断闰年和月份天数
-const backYearOrDay = (val: number, year: number) => {
-  const Days = [1, 3, 5, 7, 8, 10, 12];
-  if (val === 2) {
-    if (year % 4 === 0) {
-      return 29;
-    }
-    return 28;
-  }
-  if (Days.includes(val)) {
-    return 31;
-  }
-  return 30;
-};
-// 触摸事件
-const isStop = (val: boolean, key: string) => {
-  stop.value = val;
-  if (!stop.value && refScrollTarget) {
-    setTimeout(() => {
-      // eslint-disable-next-line no-use-before-define
-      scrolle(refScrollTarget, key);
-    });
-  }
-};
-// 滚动事件
-const scrolle = (event: any, key: string) => {
-  refScrollTarget = event;
-  // 滑动状态中就不执行后面代码
-  if (stop.value === true) {
-    return;
-  }
-  if (timer) {
-    clearTimeout(timer);
-  }
-  setTimeout(() => {
-    timer = setTimeout(() => {
-      // 元素高度
-      const itemHeight = 50;
-      // 滚动结余量
-      const scollValue = event.target.scrollTop % itemHeight;
-      // 如果高度对应就返回
-      if (scollValue - itemHeight === 0) {
-        return;
-      }
-      if (itemHeight - scollValue > itemHeight / 2) {
-        // eslint-disable-next-line operator-assignment
-        event.target.scrollTop = event.target.scrollTop - scollValue;
-      }
-      if (itemHeight - scollValue <= itemHeight / 2) {
-        event.target.scrollTop =
-          event.target.scrollTop - scollValue + itemHeight;
-      }
-      const val = Math.round(event.target.scrollTop / itemHeight) || 0;
-      // eslint-disable-next-line no-use-before-define
-      setDateTime(key, val.toString());
-    }, 50);
-  });
-};
-// 过滤器
-const formatTime = (val: number | string) => {
-  if (val < 10) {
-    return `0${val}`;
-  }
-  return `${val}`;
-};
-// 设置时间
-const setDateTime = (key: string, val: string) => {
-  const newTimeData = DateTime.value.split('');
-  switch (key) {
-    case 'year':
-      newTimeData.splice(0, 4, ...(Number(val) + 1980).toString().split(''));
-      DateTime.value = newTimeData.join('');
-      break;
-    case 'month':
-      newTimeData.splice(5, 2, ...formatTime(Number(val) + 1).split(''));
-      pickerData.date.day.data = [];
-      //  月份改变日期改变
-
-      for (
-        let i = 1;
-        i <= backYearOrDay(Number(newTimeData[1]), Number(newTimeData[0]));
-        i += 1
-      ) {
-        pickerData.date.day.data.push(i);
-      }
-      DateTime.value = newTimeData.join('');
-      break;
-    case 'day':
-      // newTimeData[2] = (Number(val) + 1).toString()
-      newTimeData.splice(8, 2, ...formatTime(Number(val) + 1).split(''));
-      DateTime.value = newTimeData.join('');
-      break;
-    case 'hour':
-      // newTimeData[3] = (Number(val)).toString()
-      newTimeData.splice(11, 2, ...formatTime(Number(val)).split(''));
-      DateTime.value = newTimeData.join('');
-      break;
-    case 'minute':
-      // newTimeData[4] = (Number(val)).toString()
-      newTimeData.splice(14, 2, ...formatTime(Number(val)).split(''));
-      DateTime.value = newTimeData.join('');
-      break;
-    case 'second':
-      // newTimeData[5] = (Number(val)).toString()
-      newTimeData.splice(17, 2, ...formatTime(Number(val)).split(''));
-      DateTime.value = newTimeData.join('');
-      break;
-    default:
-      break;
-  }
-};
-// 返回时间
-const backTime = () => {
-  emit('update:modelValue', DateTime.value);
-};
-// 返回类名
-const className = (key: string, value: number | string) => {
-  // const newTimeData = DateTime.value.split('-')
-  switch (key) {
-    case 'year':
-      return DateTime.value.slice(0, 4) === value.toString()
-        ? 'active_time'
-        : '';
-    case 'month':
-      return DateTime.value.slice(5, 7) === value.toString()
-        ? 'active_time'
-        : '';
-    case 'day':
-      return DateTime.value.slice(8, 10) === value.toString()
-        ? 'active_time'
-        : '';
-    case 'hour':
-      return DateTime.value.slice(11, 13) === value.toString()
-        ? 'active_time'
-        : '';
-    case 'minute':
-      return DateTime.value.slice(14, 16) === value.toString()
-        ? 'active_time'
-        : '';
-    case 'second':
-      return DateTime.value.slice(17, 19) === value.toString()
-        ? 'active_time'
-        : '';
-    default:
-      return null;
-  }
-};
-// 数据初始化
-const init = () => {
-  // eslint-disable-next-line no-unused-vars
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-  // eslint-disable-next-line no-unused-vars
-  const day = new Date().getDate();
-  // eslint-disable-next-line no-unused-vars
-  const hour = new Date().getHours();
-  // eslint-disable-next-line no-unused-vars
-  const minute = new Date().getMinutes();
-  // eslint-disable-next-line no-unused-vars
-  const second = new Date().getSeconds();
-  const time = DateTime.value.split('-');
-  // time[0] = year.toString()
-  // time[1] = month.toString()
-  // time[2] = day.toString()
-  // time[3] = hour.toString()
-  // time[4] = minute.toString()
-  // time[5] = second.toString()
-  for (let i = 1980; i < 2100; i += 1) {
-    pickerData.date.year.data.push(i);
-  }
-  for (let i = 1; i < 13; i += 1) {
-    pickerData.date.month.data.push(i);
-  }
-  for (let i = 1; i <= backYearOrDay(month, Number(time[0])); i += 1) {
-    pickerData.date.day.data.push(i);
-  }
-  for (let i = 0; i < 24; i += 1) {
-    pickerData.time.hour.data.push(i);
-  }
-  for (let i = 0; i < 60; i += 1) {
-    pickerData.time.minute.data.push(i);
-    pickerData.time.second.data.push(i);
-  }
-  DateTime.value = time.join('-');
-};
-// 时间改变
-const timeChanged = () => {
-  if (props.modelValue) {
-    DateTime.value = props.modelValue;
-  }
-  ((document.getElementById('year') as any).scrollTop as any) =
-    (Number(DateTime.value.slice(0, 4)) - 1980) * 50;
-  ((document.getElementById('month') as any).scrollTop as any) =
-    (Number(DateTime.value.slice(5, 7)) - 1) * 50;
-  ((document.getElementById('day') as any).scrollTop as any) =
-    (Number(DateTime.value.slice(8, 10)) - 1) * 50;
-  ((document.getElementById('hour') as any).scrollTop as any) =
-    Number(DateTime.value.slice(11, 13)) * 50;
-  ((document.getElementById('minute') as any).scrollTop as any) =
-    Number(DateTime.value.slice(14, 16)) * 50;
-  ((document.getElementById('second') as any).scrollTop as any) =
-    Number(DateTime.value.slice(17, 19)) * 50;
-};
-onMounted(() => {
-  timeChanged();
-});
-watch(
-  () => props.modelValue,
-  // eslint-disable-next-line no-unused-vars
-  (newValue, oldValue) => {
-    timeChanged();
-  }
-);
-init();
-</script>
-
-<script lang="ts">
 export default {
-  name: 'MyPicker',
-};
+  name: 'JustDateTimePicker',
+  // eslint-disable-next-line vue/no-unused-components
+  components: { DatePickerCalendar },
+  props: {
+    name: [String],
+    inputClass: [String],
+    popupClass: [String],
+    value: [Date, Array, String],
+    disabled: [Boolean],
+    type: {
+      type: String,
+      default: 'normal'
+    },
+    rangeSeparator: {
+      type: String,
+      default: '~'
+    },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    placeholder: [String],
+    disabledDate: {
+      type: Function,
+      default: () => false
+    },
+    format: {
+      type: String,
+      default: 'YYYY-MM-DD'
+    },
+    local: {
+      type: Object,
+      default() {
+        return {
+          dow: 1, // Monday is the first day of the week
+          hourTip: '选择小时', // tip of select hour
+          minuteTip: '选择分钟', // tip of select minute
+          secondTip: '选择秒数', // tip of select second
+          yearSuffix: '年', // format of head
+          monthsHead: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // months of head
+          months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'), // months of panel
+          weeks: '一_二_三_四_五_六_日'.split('_'), // weeks
+          cancelTip: '取消', // default text for cancel button
+          submitTip: '确定' // default text for submit button
+        }
+      }
+    },
+    showButtons: {
+      type: Boolean,
+      default: false
+    },
+    dateRangeSelect: [Function]
+  },
+  data() {
+    return {
+      show: false,
+      dates: this.vi(this.value)
+    }
+  },
+  computed: {
+    range() {
+      return this.dates.length === 2
+    },
+    text() {
+      const val = this.value
+      const txt = this.dates.map(date => this.tf(date)).join(` ${this.rangeSeparator} `)
+      if (Array.isArray(val)) {
+        return val.length > 1 ? txt : ''
+      }
+      return val ? txt : ''
+
+    }
+  },
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    value(val) {
+      this.dates = this.vi(this.value)
+    }
+  },
+  methods: {
+    get() {
+      return Array.isArray(this.value) ? this.dates : this.dates[0]
+    },
+    cls() {
+      this.$emit('clear')
+      this.$emit('input', this.range ? [] : '')
+    },
+    vi(val) {
+      if (Array.isArray(val)) {
+        return val.length > 1 ? val.map(item => new Date(item)) : [new Date(), new Date()]
+      }
+      return val ? new Array(new Date(val)) : [new Date()]
+
+    },
+    ok(leaveOpened) {
+      const $this = this
+      $this.$emit('input', $this.get())
+      // eslint-disable-next-line no-unused-expressions
+      !leaveOpened && !$this.showButtons && setTimeout(() => {
+        $this.show = $this.range
+      })
+    },
+    tf(time, format) {
+      const year = time.getFullYear()
+      const month = time.getMonth()
+      const day = time.getDate()
+      const hours24 = time.getHours()
+      const hours = hours24 % 12 === 0 ? 12 : hours24 % 12
+      const minutes = time.getMinutes()
+      const seconds = time.getSeconds()
+      const milliseconds = time.getMilliseconds()
+      const dd = t => (`0${t}`).slice(-2)
+      const map = {
+        YYYY: year,
+        MM: dd(month + 1),
+        MMM: this.local.months[month],
+        MMMM: this.local.monthsHead[month],
+        M: month + 1,
+        DD: dd(day),
+        D: day,
+        HH: dd(hours24),
+        H: hours24,
+        hh: dd(hours),
+        h: hours,
+        mm: dd(minutes),
+        m: minutes,
+        ss: dd(seconds),
+        s: seconds,
+        S: milliseconds
+      }
+      return (format || this.format).replace(/Y+|M+|D+|H+|h+|m+|s+|S+/g, str => map[str])
+    },
+    dc(e) {
+      this.show = this.$el.contains(e.target) && !this.disabled
+    },
+    submit() {
+      this.$emit('confirm', this.get())
+      this.show = false
+    },
+    cancel() {
+      this.$emit('cancel')
+      this.show = false
+    }
+  },
+  mounted() {
+    document.addEventListener('click', this.dc, true)
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.dc, true)
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-@import '../../styles/index';
-@include date-time-picker-wrapper;
+<style>
+.datepicker {
+  display: inline-block;
+  position: relative;
+}
+
+.datepicker:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 34px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background: url('data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjxwYXRoIGQ9Ik01NjQgMTgwLjJINDQ4Yy04LjMgMC0xNS02LjctMTUtMTVzNi43LTE1IDE1LTE1aDExNmM4LjIgMCAxNSA2LjcgMTUgMTVzLTYuOCAxNS0xNSAxNXoiIGZpbGw9IiM5ODk4OTgiLz48cGF0aCBkPSJNOTQ1IDk1Mi4ySDgxLjJjLTguMiAwLTE1LTYuNy0xNS0xNVYxNjIuOGMwLTguMyA2LjgtMTUgMTUtMTVIMjk0YzguMiAwIDE1IDYuNyAxNSAxNXMtNi44IDE1LTE1IDE1SDk2LjJ2NzQ0LjRIOTMwVjE3Ny44SDcxMy42Yy04LjMgMC0xNS02LjctMTUtMTVzNi43LTE1IDE1LTE1SDk0NWM4LjIgMCAxNSA2LjcgMTUgMTV2Nzc0LjRjMCA4LjMtNi44IDE1LTE1IDE1eiIgZmlsbD0iIzk4OTg5OCIvPjxwYXRoIGQ9Ik0zMzMuMyA1NTFIMjE2Yy04LjIgMC0xNS02LjgtMTUtMTVzNi44LTE1IDE1LTE1aDExNy4zYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1em0yMzAuMyAwSDQ0Ni4zYy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4zYzguMiAwIDE1IDYuNiAxNSAxNXMtNi44IDE1LTE1IDE1em0yMzAuMiAwSDY3Ni42Yy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4yYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1ek0zMzMuMyA3NDBIMjE2Yy04LjIgMC0xNS02LjgtMTUtMTVzNi44LTE1IDE1LTE1aDExNy4zYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1em0yMzAuMyAwSDQ0Ni4zYy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4zYzguMiAwIDE1IDYuNiAxNSAxNXMtNi44IDE1LTE1IDE1em0yMzAuMiAwSDY3Ni42Yy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4yYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1ek0zNzAuOCAyNTguNmMtOC4zIDAtMTUtNi43LTE1LTE1Vjg2LjhjMC04LjIgNi43LTE1IDE1LTE1czE1IDYuOCAxNSAxNXYxNTYuOGMwIDguMy02LjcgMTUtMTUgMTV6bTI3MC4yIDBjLTguMyAwLTE1LTYuNy0xNS0xNVY4Ni44YzAtOC4yIDYuNy0xNSAxNS0xNXMxNSA2LjggMTUgMTV2MTU2LjhjMCA4LjMtNi43IDE1LTE1IDE1ek05NDUgMzcyLjJIODEuMmMtOC4yIDAtMTUtNi43LTE1LTE1czYuOC0xNSAxNS0xNUg5NDVjOC4yIDAgMTUgNi43IDE1IDE1cy02LjggMTUtMTUgMTV6IiBmaWxsPSIjOTg5ODk4Ii8+PC9zdmc+')
+    no-repeat 50% 50%;
+}
+
+.datepicker-close {
+  display: none;
+  position: absolute;
+  width: 34px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.datepicker-close:before {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 50%;
+  top: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  text-align: center;
+  background: #ccc;
+  color: #fff;
+  border-radius: 50%;
+  background: #ccc
+    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3IDciIHdpZHRoPSI3IiBoZWlnaHQ9IjciPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01LjU4LDVsMi44LTIuODFBLjQxLjQxLDAsMSwwLDcuOCwxLjZMNSw0LjQxLDIuMiwxLjZhLjQxLjQxLDAsMCwwLS41OC41OGgwTDQuNDIsNSwxLjYyLDcuOGEuNDEuNDEsMCwwLDAsLjU4LjU4TDUsNS41OCw3LjgsOC4zOWEuNDEuNDEsMCwwLDAsLjU4LS41OGgwWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEuNSAtMS40OCkiIHN0eWxlPSJmaWxsOiNmZmYiLz48L3N2Zz4NCg==')
+    no-repeat 50% 50%;
+}
+
+.datepicker__clearable:hover:before {
+  display: none;
+}
+
+.datepicker__clearable:hover .datepicker-close {
+  display: block;
+}
+
+.datepicker-close:hover:before {
+  background-color: #afafaf;
+}
+
+.datepicker > input {
+  color: #666;
+  transition: all 200ms ease;
+  border: 1px solid #e5e5e5;
+  height: 34px;
+  box-sizing: border-box;
+  outline: none;
+  padding: 0 34px 0 12px;
+  font-size: 14px;
+  width: 100%;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.datepicker > input.focus {
+  border-color: #3bb4f2;
+  -webkit-box-shadow: 0 0 5px rgba(59, 180, 242, 0.3);
+  box-shadow: 0 0 5px rgba(59, 180, 242, 0.3);
+}
+
+.datepicker > input:disabled {
+  cursor: not-allowed;
+  background-color: #ebebe4;
+  border-color: #e5e5e5;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.datepicker-popup {
+  position: absolute;
+  transition: all 200ms ease;
+  opacity: 1;
+  transform: scaleY(1);
+  transform-origin: center top;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 1px 6px rgba(99, 99, 99, 0.2);
+  margin-top: 2px;
+  outline: 0;
+  padding: 5px;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.datepicker-inline {
+  position: relative;
+  margin-top: 0;
+}
+
+.datepicker-range {
+  min-width: 325px;
+}
+
+.datepicker-range .datepicker-popup {
+  width: 403px;
+}
+
+.datepicker-bottom {
+  float: left;
+  width: 100%;
+  text-align: right;
+}
+
+.datepicker-btn {
+  padding: 5px 10px;
+  background: #1284e7;
+  color: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.datepicker-anim-enter-active {
+  transform-origin: 0 0;
+  animation: datepicker-anim-in 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.datepicker-anim-leave-active {
+  transform-origin: 0 0;
+  animation: datepicker-anim-out 0.2s cubic-bezier(0.755, 0.05, 0.855, 0.06);
+}
+
+.datepicker__buttons {
+  display: block;
+  text-align: right;
+}
+
+.datepicker__buttons button {
+  display: inline-block;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0 0 5px;
+  padding: 5px 15px;
+  color: #ffffff;
+}
+
+.datepicker__buttons .datepicker__button-select {
+  background: #1284e7;
+}
+
+.datepicker__buttons .datepicker__button-cancel {
+  background: #666;
+}
+
+@keyframes datepicker-anim-in {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes datepicker-anim-out {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+}
 </style>

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { expect, describe ,test} from '@jest/globals';
+import { expect, describe, test } from '@jest/globals';
 import MyButton from '../../views/button/button.vue';
 import loadingButton from '../../views/button/loadingbutton.vue';
 
@@ -22,8 +22,6 @@ describe('MyButton Performance Test', () => {
   });
 });
 
-
-
 describe('loadingButton performance', () => {
   test('rendering performance', () => {
     const wrapper = mount(<any>loadingButton);
@@ -37,8 +35,7 @@ describe('loadingButton performance', () => {
 
     // 输出测试结果
     console.log(`loadingButton loading performance: ${end - start}ms`);
-    expect( end - start).toBeLessThan(10);
+    expect(end - start).toBeLessThan(10);
     wrapper.unmount();
   });
 });
-

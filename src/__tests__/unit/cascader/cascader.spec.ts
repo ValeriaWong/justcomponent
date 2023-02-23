@@ -73,18 +73,24 @@ describe('Cascader', () => {
         levelList: [
           {
             text: 'Province 1',
-            children: [{ text: 'City 1-1', children: [{ text: 'Area 1-1-1' }] }],
+            children: [
+              { text: 'City 1-1', children: [{ text: 'Area 1-1-1' }] },
+            ],
           },
           {
             text: 'Province 2',
-            children: [{ text: 'City 2-1', children: [{ text: 'Area 2-1-1' }] }],
+            children: [
+              { text: 'City 2-1', children: [{ text: 'Area 2-1-1' }] },
+            ],
           },
         ],
         multiple: false,
       },
     });
 
-    const province1 = wrapper.findAll('.--optionlist .level-0 .level-item').at(0);
+    const province1 = wrapper
+      .findAll('.--optionlist .level-0 .level-item')
+      .at(0);
     const city11 = wrapper.findAll('.--optionlist .level-1 .level-item').at(0);
     const area111 = wrapper.findAll('.--optionlist .level-2 .level-item').at(0);
 
@@ -102,7 +108,5 @@ describe('Cascader', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$refs.single).toBe('Province 1/City 1-1/Area 1-1-1');
-
-   
-});
+  });
 });

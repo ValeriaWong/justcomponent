@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
-import Input from '../../views/input/input.vue'
+import Input from '../../views/input/input.vue';
 
 describe('Input performance', () => {
   it('renders and updates value quickly', async () => {

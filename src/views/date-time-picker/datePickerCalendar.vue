@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div :class="`${pre}`">
     <div :class="`${pre}-head`">
       <a
@@ -166,7 +166,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
 export default {
   name: 'DatePickerCalendar',
   props: {
@@ -580,4 +580,4 @@ export default {
   text-align: center;
   font-weight: bold;
 }
-</style> -->
+</style>
