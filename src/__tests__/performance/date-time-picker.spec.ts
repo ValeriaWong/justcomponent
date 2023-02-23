@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { jest, test, beforeAll, afterAll, expect } from '@jest/globals';
-import DateTimePicker from '../../views/date-time-picker/picker.old';
+import DateTimePicker from '../../views/date-time-picker/picker.vue';
 
 // 测试组件渲染时间：
 let startTime: number;

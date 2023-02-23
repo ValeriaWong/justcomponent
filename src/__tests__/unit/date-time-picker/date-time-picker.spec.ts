@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
-import DateTimePicker from '../../../views/date-time-picker/picker.old';
+import DateTimePicker from '../../../views/date-time-picker/picker.vue';
 
 describe('DateTimePicker', () => {
   it('renders date picker by default', async () => {
