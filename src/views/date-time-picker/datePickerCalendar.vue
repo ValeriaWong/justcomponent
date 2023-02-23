@@ -167,304 +167,233 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+export default {
+  name: 'DatePickerCalendar',
+  props: {
+    value: null,
+    // eslint-disable-next-line vue/require-default-prop, vue/require-prop-type-constructor
+    left: false,
+    // eslint-disable-next-line vue/require-default-prop, vue/require-prop-type-constructor
+    right: false,
 
-@Component({})
-export default class DatePickerCalendar extends Vue {
-  @Prop({})
-  readonly value: any | undefined;
+    // hour: {
+    //   type: Number,
+    //   required: true
+    // },
+    // minute: {
+    //   type: Number,
+    //   required: true
+    // },
+    // second: {
+    //   type: Number,
+    //   required: true
+    // },
 
-  @Prop({})
-  readonly left: any | undefined;
 
-  @Prop({})
-  readonly right: any | undefined;
-  $parent: any;
-
-  created() {
-    const time = this.get(this.value);
-    this.pre = 'calendar';
-    this.m = 'D';
-    this.showYears = false;
-    this.showMonths = false;
-    this.showHours = false;
-    this.showMinutes = false;
-    this.showSeconds = false;
-    this.year = time.year;
-    this.month = time.month;
-    this.day = time.day;
-    this.hour = time.hour;
-    this.minute = time.minute;
-    this.second = time.second;
-  }
-
-  pre: string = null;
-
-  m: string = null;
-
-  showYears: boolean = null;
-
-  showMonths: boolean = null;
-
-  showHours: boolean = null;
-
-  showMinutes: boolean = null;
-
-  showSeconds: boolean = null;
-
-  year: any = null;
-
-  month: any = null;
-
-  day: any = null;
-
-  hour: any = null;
-
-  minute: any = null;
-
-  second: any = null;
-
-  @Watch('value')
-  onValueChanged(val: any) {
-    const $this = this;
-    const time = $this.get(val);
-    $this.year = time.year;
-    $this.month = time.month;
-    $this.day = time.day;
-    $this.hour = time.hour;
-    $this.minute = time.minute;
-    $this.second = time.second;
-  }
-
-  get local() {
-    return this.$parent.local;
-  }
-
-  get format() {
-    return this.$parent.format;
-  }
-
-  get start() {
-    return this.parse(this.$parent.dates[0]);
-  }
-
-  get end() {
-    return this.parse(this.$parent.dates[1]);
-  }
-
-  get ys() {
-    return parseInt(this.year / 10, 10) * 10;
-  }
-
-  get ye() {
-    return this.ys + 10;
-  }
-
-  get years() {
-    const arr = [];
-    let start = this.ys - 1;
-    while (arr.length < 12) {
-      arr.push((start += 1));
-    }
-    return arr;
-  }
-
-  get days() {
-    const days = [];
-    const $this = this;
-    const { year } = $this;
-    const { month } = $this;
-    const time = new Date(year, month, 1);
-    const dow = $this.local.dow || 7;
-    time.setDate(0);
-    let lastDay = time.getDate();
-    const week = time.getDay() || 7;
-    let count = dow <= week ? week - dow + 1 : week + (7 - dow + 1);
-    while (count > 0) {
-      days.push({
-        i: lastDay - count + 1,
-        y: month > 0 ? year : year - 1,
-        m: month > 0 ? month - 1 : 11,
-        p: true,
-      });
-      count -= 1;
-    }
-    time.setMonth(time.getMonth() + 2, 0);
-    lastDay = time.getDate();
-    let i = 1;
-    for (i = 1; i <= lastDay; i += 1) {
-      days.push({
-        i,
-        y: year,
-        m: month,
-      });
-    }
-    for (i = 1; days.length < 42; i += 1) {
-      days.push({
-        i,
-        y: month < 11 ? year : year + 1,
-        m: month < 11 ? month + 1 : 0,
-        n: true,
-      });
-    }
-    return days;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get ddH() {
-    return (hour: any) => `0${hour}`.slice(-2);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get ddM() {
-    return (minute: any) => `0${minute}`.slice(-2);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get ddS() {
-    return (second: any) => `0${second}`.slice(-2);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get(time: {
-    getFullYear: () => any;
-    getMonth: () => any;
-    getDate: () => any;
-    getHours: () => any;
-    getMinutes: () => any;
-    getSeconds: () => any;
-  }) {
+  },
+  data() {
+    const time = this.get(this.value)
     return {
-      year: time.getFullYear(),
-      month: time.getMonth(),
-      day: time.getDate(),
-      hour: time.getHours(),
-      minute: time.getMinutes(),
-      second: time.getSeconds(),
-    };
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  parse(num: number | Date) {
-    return parseInt(num / 1000, 10);
-  }
-
-  status(
-    year: number,
-    month: number,
-    day: number,
-    hour: number,
-    minute: number,
-    second: number,
-    format: string
-  ) {
-    const $this = this;
-    const maxDay = new Date(year, month + 1, 0).getDate();
-    const time = new Date(
-      year,
-      month,
-      day > maxDay ? maxDay : day,
-      hour,
-      minute,
-      second
-    );
-    const t = $this.parse(time);
-    const f = $this.$parent.tf;
-    const classObj = {};
-    let flag = false;
-    if (format === 'YYYY') {
-      flag = year === $this.year;
-    } else if (format === 'YYYYMM') {
-      flag = month === $this.month;
-    } else {
-      flag = f($this.value, format) === f(time, format);
+      pre: 'calendar',
+      m: 'D',
+      showYears: false,
+      showMonths: false,
+      showHours: false,
+      showMinutes: false,
+      showSeconds: false,
+      year: time.year,
+      month: time.month,
+      day: time.day,
+      hour: time.hour,
+      minute: time.minute,
+      second: time.second
     }
-
-    classObj[`${$this.pre}-date`] = true;
-
-    classObj[`${$this.pre}-date-disabled`] =
-      ($this.right && t < $this.start) ||
-      $this.$parent.disabledDate(time, format);
-
-    classObj[`${$this.pre}-date-on`] =
-      ($this.left && t > $this.start) || ($this.right && t < $this.end);
-
-    classObj[`${$this.pre}-date-selected`] = flag;
-
-    return classObj;
-  }
-
-  nm() {
-    if (this.month < 11) {
-      this.month += 1;
-    } else {
-      this.month = 0;
-      this.year += 1;
+  },
+  watch: {
+    value(val) {
+      const $this = this
+      const time = $this.get(val)
+      $this.year = time.year
+      $this.month = time.month
+      $this.day = time.day
+      $this.hour = time.hour
+      $this.minute = time.minute
+      $this.second = time.second
     }
-  }
+  },
+  computed: {
+    local() {
+      return this.$parent.local
+    },
+    format() {
+      return this.$parent.format
+    },
+    start() {
+      return this.parse(this.$parent.dates[0])
+    },
+    end() {
+      return this.parse(this.$parent.dates[1])
+    },
+    ys() {
+      return parseInt(this.year / 10, 10) * 10
+    },
+    ye() {
+      return this.ys + 10
+    },
+    years() {
+      const arr = []
+      let start = this.ys - 1
+      while (arr.length < 12) {
+        arr.push(start += 1)
+      }
+      return arr
+    },
+    days() {
+      const days = []
+      const $this = this
+      const { year } = $this
+      const { month } = $this
+      const time = new Date(year, month, 1)
+      const dow = $this.local.dow || 7
+      time.setDate(0) // switch to the last day of last month
+      let lastDay = time.getDate()
+      const week = time.getDay() || 7
+      let count = dow <= week ? (week - dow + 1) : (week + (7 - dow + 1))
+      while (count > 0) {
+        days.push({
+          i: lastDay - count + 1,
+          y: month > 0 ? year : year - 1,
+          m: month > 0 ? month - 1 : 11,
+          p: true
+        })
+        count -= 1
+      }
+      time.setMonth(time.getMonth() + 2, 0) // switch to the last day of the current month
+      lastDay = time.getDate()
+      let i = 1
+      for (i = 1; i <= lastDay; i += 1) {
+        days.push({
+          i,
+          y: year,
+          m: month
+        })
+      }
+      for (i = 1; days.length < 42; i += 1) {
+        days.push({
+          i,
+          y: month < 11 ? year : year + 1,
+          m: month < 11 ? month + 1 : 0,
+          n: true
+        })
+      }
+      return days
+    },
+    ddH() {
 
-  pm() {
-    if (this.month > 0) {
-      this.month -= 1;
-    } else {
-      this.month = 11;
-      this.year -= 1;
+      return hour => (`0${hour}`).slice(-2)
+    },
+    ddM() {
+      return minute => (`0${minute}`).slice(-2)
+    },
+    ddS() {
+      return second => (`0${second}`).slice(-2)
     }
-  }
-
-  is(e: MouseEvent) {
-    return e.target.className.indexOf(`${this.pre}-date-disabled`) === -1;
-  }
-
-  ok(
-    info:
-      | string
-      | { i: number; y: any; m: number; p: boolean; n?: undefined }
-      | { i: number; y: any; m: any; p?: undefined; n?: undefined }
-      | { i: number; y: any; m: any; n: boolean; p?: undefined }
-  ) {
-    const $this = this;
-    let year = '';
-    let month = '';
-    let day = '';
-    info && info.n && $this.nm();
-    info && info.p && $this.pm();
-    if (info === 'h') {
-      const time = $this.get(this.value);
-      year = time.year;
-      month = time.month;
-    } else if (info === 'm' || info === 'y') {
-      day = 1;
+  },
+  // filters: {
+  //   dd: val => (`0${val}`).slice(-2)
+  // },
+  methods: {
+    get(time) {
+      return {
+        year: time.getFullYear(),
+        month: time.getMonth(),
+        day: time.getDate(),
+        hour: time.getHours(),
+        minute: time.getMinutes(),
+        second: time.getSeconds()
+      }
+    },
+    parse(num) {
+      return parseInt(num / 1000, 10)
+    },
+    status(year, month, day, hour, minute, second, format) {
+      const $this = this
+      const maxDay = new Date(year, month + 1, 0).getDate()
+      const time = new Date(year, month, day > maxDay ? maxDay : day, hour, minute, second)
+      const t = $this.parse(time)
+      const f = $this.$parent.tf
+      const classObj = {}
+      let flag = false
+      if (format === 'YYYY') {
+        flag = year === $this.year
+      } else if (format === 'YYYYMM') {
+        flag = month === $this.month
+      } else {
+        flag = f($this.value, format) === f(time, format)
+      }
+      classObj[`${$this.pre}-date`] = true
+      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || $this.$parent.disabledDate(time, format)
+      classObj[`${$this.pre}-date-on`] = ($this.left && t > $this.start) || ($this.right && t < $this.end)
+      classObj[`${$this.pre}-date-selected`] = flag
+      return classObj
+    },
+    nm() {
+      if (this.month < 11) {
+        this.month += 1
+      } else {
+        this.month = 0
+        this.year += 1
+      }
+    },
+    pm() {
+      if (this.month > 0) {
+        this.month -= 1
+      } else {
+        this.month = 11
+        this.year -= 1
+      }
+    },
+    is(e) {
+      return e.target.className.indexOf(`${this.pre}-date-disabled`) === -1
+    },
+    ok(info) {
+      const $this = this
+      let year = ''
+      let month = ''
+      let day = ''
+      // eslint-disable-next-line no-unused-expressions
+      info && info.n && $this.nm()
+      // eslint-disable-next-line no-unused-expressions
+      info && info.p && $this.pm()
+      if (info === 'h') {
+        const time = $this.get(this.value)
+        year = time.year
+        month = time.month
+      } else if (info === 'm' || info === 'y') {
+        day = 1
+      }
+      // eslint-disable-next-line no-underscore-dangle
+      const _time = new Date(year || $this.year, month || $this.month, day || $this.day, $this.hour, $this.minute, $this.second)
+      if ($this.left && parseInt(_time.getTime() / 1000, 10) > $this.end) {
+        this.$parent.dates[1] = _time
+      }
+      $this.$emit('input', _time)
+      $this.$parent.ok(info === 'h')
     }
-
-    const _time = new Date(
-      year || $this.year,
-      month || $this.month,
-      day || $this.day,
-      $this.hour,
-      $this.minute,
-      $this.second
-    );
-    if ($this.left && parseInt(_time.getTime() / 1000, 10) > $this.end) {
-      this.$parent.dates[1] = _time;
-    }
-    $this.$emit('input', _time);
-    $this.$parent.ok(info === 'h');
-  }
-
+  },
   mounted() {
-    const $this = this;
-    const is = (c: string) => $this.format.indexOf(c) !== -1;
+    const $this = this
+    const is = c => $this.format.indexOf(c) !== -1
     if (is('s') && is('m') && (is('h') || is('H'))) {
-      $this.m = 'H';
+      $this.m = 'H'
     } else if (is('D')) {
-      $this.m = 'D';
+      $this.m = 'D'
     } else if (is('M')) {
-      $this.m = 'M';
-      $this.showMonths = true;
+      $this.m = 'M'
+      $this.showMonths = true
     } else if (is('Y')) {
-      $this.m = 'Y';
-      $this.showYears = true;
+      $this.m = 'Y'
+      $this.showYears = true
     }
   }
 }
