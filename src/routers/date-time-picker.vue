@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import JustDatetimePicker from '../views/date-time-picker/picker.old';
+import JustDatetimePicker from '../views/date-time-picker/picker.vue';
 </script>
 <template>
   <space wrap>
