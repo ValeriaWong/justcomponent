@@ -1,16 +1,22 @@
 import { mount } from '@vue/test-utils';
-import { expect, describe ,test} from '@jest/globals';
+import { expect, describe, test } from '@jest/globals';
 import Cascader from '../../views/Cascader/cascader.vue';
 
 describe('Cascader performance', () => {
-//   const levels = 3; // cascader的级数
-//   const itemsPerLevel = 10; // 每个级别的项数
-//   const levelsWithFewItems = 1; // 最后几个级别的项数较少，以模拟实际数据
+  //   const levels = 3; // cascader的级数
+  //   const itemsPerLevel = 10; // 每个级别的项数
+  //   const levelsWithFewItems = 1; // 最后几个级别的项数较少，以模拟实际数据
 
-  function generateData(levels: number, itemsPerLevel: number, levelsWithFewItems: number) {
+  function generateData(
+    levels: number,
+    itemsPerLevel: number,
+    levelsWithFewItems: number
+  ) {
     const data = [];
-    let items = new Array(itemsPerLevel).fill(null).map((_, i) => ({ text: String(i) }));
-    for (let i = 0; i < levels - levelsWithFewItems; i+=1) {
+    let items = new Array(itemsPerLevel)
+      .fill(null)
+      .map((_, i) => ({ text: String(i) }));
+    for (let i = 0; i < levels - levelsWithFewItems; i += 1) {
       data.push({
         text: String(i),
         children: items,
@@ -19,7 +25,7 @@ describe('Cascader performance', () => {
         .fill(null)
         .map((_, j) => ({ text: String(i) && '-' && String(j) }));
     }
-    for (let i = 0; i < levelsWithFewItems; i+=1) {
+    for (let i = 0; i < levelsWithFewItems; i += 1) {
       data.push({
         text: String(levels - levelsWithFewItems + i),
         children: items.slice(0, itemsPerLevel / 2),

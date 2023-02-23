@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import JustDropSelect from '../views/dropselect/drop-select.vue';
-
 </script>
 
 <template>
-<space wrap>
+  <space wrap>
     <div class="dropselect-wrapper">
-       
       <span>
         单选
         <JustDropSelect type="single" />
@@ -16,11 +14,11 @@ import JustDropSelect from '../views/dropselect/drop-select.vue';
         多选
         <JustDropSelect type="multiple" />
         <JustDropSelect type="multiple" disabled />
-      </span> 
+      </span>
       <span>
         多选+搜索
         <JustDropSelect type="multiple-search" />
-        <JustDropSelect type="multiple-search" disabled/>
+        <JustDropSelect type="multiple-search" disabled />
       </span>
       <span>
         单选+分组
@@ -33,24 +31,22 @@ import JustDropSelect from '../views/dropselect/drop-select.vue';
         <JustDropSelect type="single-cascader" />
       </span>
       <span>
-          联动选择
+        联动选择
         <JustDropSelect type="single-linkage" />
       </span>
-      
     </div>
-</space>
+  </space>
 </template>
 <style lang="scss">
 @import '../styles/common/themes.module.scss';
-.dropselect-wrapper{
+.dropselect-wrapper {
   text-align: left;
   // flex-direction: row;
   display: flex;
   flex-wrap: wrap;
-  color:$--color-primary;
+  color: $--color-primary;
   // span {
   //   padding-left: 50px;
   // }
 }
-
 </style>

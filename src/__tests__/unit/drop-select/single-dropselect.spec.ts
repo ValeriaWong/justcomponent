@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, describe, it } from '@jest/globals';
-import SingleDropselect from '../../../views/dropselect/single-dropselct.vue'
-
+import SingleDropselect from '../../../views/dropselect/single-dropselct.vue';
 
 describe('SingleDropselect', () => {
   it('renders the component with default props', () => {
@@ -65,7 +64,9 @@ describe('SingleDropselect', () => {
     await inputBox.trigger('click');
     const firstCity = wrapper.find('.--optionlist-item span:first-child');
     await firstCity.trigger('click');
-    expect(wrapper.find('.--optionlist-item-description').text()).toBe('是一个好地方');
+    expect(wrapper.find('.--optionlist-item-description').text()).toBe(
+      '是一个好地方'
+    );
   });
 
   it('clears the selected city when clear button is clicked', async () => {
@@ -95,4 +96,3 @@ describe('SingleDropselect', () => {
     expect(wrapper.find('.--optionlist').exists()).toBe(false);
   });
 });
-

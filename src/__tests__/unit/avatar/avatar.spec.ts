@@ -69,7 +69,9 @@ describe('Avatar', () => {
 
     // 检查是否正确渲染了img元素
     expect(wrapper.find('img').exists()).toBe(true);
-    expect(wrapper.find('img').attributes('src')).toBe('https://example.com/avatar.jpg');
+    expect(wrapper.find('img').attributes('src')).toBe(
+      'https://example.com/avatar.jpg'
+    );
     expect(wrapper.find('img').attributes('alt')).toBe('Avatar');
   });
 
