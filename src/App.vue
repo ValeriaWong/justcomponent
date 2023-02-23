@@ -13,27 +13,13 @@
           <JustButton type="icon" icon="clear"></JustButton>
           <JustButton type="icon" icon="download"></JustButton>
         </div>
-
-        <JustButton type="danger">危险按钮</JustButton>
       </div>
       <div class="btn-disable-wrapper" v-if="type == 'btnDisable'">
-        <div>
+      
           <JustButton disabled>默认按钮</JustButton>
           <JustButton type="primary" disabled>主要按钮</JustButton>
           <JustButton type="secondary" disabled>次级按钮</JustButton>
-          <JustButton type="revert" disabled>回退按钮</JustButton>
-          <JustButton type="warning" disabled>警告按钮</JustButton>
-          <JustButton type="danger" disabled>危险按钮</JustButton>
-        </div>
-
-        <div>
-          <JustButton plain disabled>朴素按钮</JustButton>
-          <JustButton type="primary" plain disabled>主要按钮</JustButton>
-          <JustButton type="secondary" plain disabled>成功按钮</JustButton>
-          <JustButton type="revert" plain disabled>信息按钮</JustButton>
-          <JustButton type="warning" plain disabled>警告按钮</JustButton>
-          <JustButton type="danger" plain disabled>危险按钮</JustButton>
-        </div>
+          <JustButton type="revert" disabled>回退按钮</JustButton>  
       </div>
       <div v-if="type == 'btnIcon'">
         <JustButton type="icon"></JustButton>
