@@ -57,231 +57,160 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+<script lang="js">
+import DatePickerCalendar from './datePickerCalendar.vue'
 
-import DatePickerCalendar from './datePickerCalendar.vue';
-
-@Component({
-  components: {
-    DatePickerCalendar,
+export default {
+  name: 'JustDateTimePicker',
+  // eslint-disable-next-line vue/no-unused-components
+  components: { DatePickerCalendar },
+  props: {
+    name: [String],
+    inputClass: [String],
+    popupClass: [String],
+    value: [Date, Array, String],
+    disabled: [Boolean],
+    type: {
+      type: String,
+      default: 'normal'
+    },
+    rangeSeparator: {
+      type: String,
+      default: '~'
+    },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    placeholder: [String],
+    disabledDate: {
+      type: Function,
+      default: () => false
+    },
+    format: {
+      type: String,
+      default: 'YYYY-MM-DD'
+    },
+    local: {
+      type: Object,
+      default() {
+        return {
+          dow: 1, // Monday is the first day of the week
+          hourTip: '选择小时', // tip of select hour
+          minuteTip: '选择分钟', // tip of select minute
+          secondTip: '选择秒数', // tip of select second
+          yearSuffix: '年', // format of head
+          monthsHead: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // months of head
+          months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'), // months of panel
+          weeks: '一_二_三_四_五_六_日'.split('_'), // weeks
+          cancelTip: '取消', // default text for cancel button
+          submitTip: '确定' // default text for submit button
+        }
+      }
+    },
+    showButtons: {
+      type: Boolean,
+      default: false
+    },
+    // eslint-disable-next-line vue/require-default-prop
+    dateRangeSelect: [Function]
   },
-})
-export default class JustDateTimePicker extends Vue {
-  // eslint-disable-next-line no-undef
-  [x: string]: any;
-
-  @Prop({
-    type: [String],
-  })
-  readonly name: string | undefined;
-
-  @Prop({
-    type: [String],
-  })
-  readonly inputClass: string | undefined;
-
-  @Prop({
-    type: [String],
-  })
-  readonly popupClass: string | undefined;
-
-  @Prop({
-    type: [Date, Array, String],
-  })
-  readonly value: any | Array<any> | string | undefined;
-
-  @Prop({
-    type: [Boolean],
-  })
-  readonly disabled: boolean | undefined;
-
-  @Prop({
-    type: String,
-    default: 'normal',
-  })
-  readonly type!: string;
-
-  @Prop({
-    type: String,
-    default: '~',
-  })
-  readonly rangeSeparator!: string;
-
-  @Prop({
-    type: Boolean,
-    default: false,
-  })
-  readonly clearable!: boolean;
-
-  @Prop({
-    type: [String],
-  })
-  readonly placeholder: string | undefined;
-
-  @Prop({
-    type: Function,
-    default: () => false,
-  })
-  readonly disabledDate!: Function;
-
-  @Prop({
-    type: String,
-    default: 'YYYY-MM-DD',
-  })
-  readonly format!: string;
-
-  @Prop({
-    type: Object,
-    default() {
-      return {
-        dow: 1,
-        hourTip: '选择小时',
-        minuteTip: '选择分钟',
-        secondTip: '选择秒数',
-        yearSuffix: '年',
-        monthsHead: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split(
-          '_'
-        ),
-        months:
-          '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split(
-            '_'
-          ),
-        weeks: '一_二_三_四_五_六_日'.split('_'),
-        cancelTip: '取消',
-        submitTip: '确定',
-      };
-    },
-  })
-  readonly local!: any;
-
-  @Prop({
-    type: Boolean,
-    default: false,
-  })
-  readonly showButtons!: boolean;
-
-  @Prop({
-    type: [Function],
-  })
-  readonly dateRangeSelect: Function | undefined;
-
-  show: boolean = false;
-
-  dates: any = this.vi(this.value);
-
-  get range() {
-    return this.dates.length === 2;
-  }
-
-  get text() {
-    const val = this.value;
-    const txt = this.dates
-      .map((date: any) => this.tf(date))
-      .join(` ${this.rangeSeparator} `);
-    if (Array.isArray(val)) {
-      return val.length > 1 ? txt : '';
+  data() {
+    return {
+      show: false,
+      dates: this.vi(this.value)
     }
-    return val ? txt : '';
-  }
-
-  @Watch('value')
-  // eslint-disable-next-line no-unused-vars
-  onValueChanged(val: any) {
-    this.dates = this.vi(this.value);
-  }
-
-  get() {
-    return Array.isArray(this.value) ? this.dates : this.dates[0];
-  }
-
-  cls() {
-    this.$emit('clear');
-    this.$emit('input', this.range ? [] : '');
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  vi(val: string | number | any[] | Date) {
-    if (Array.isArray(val)) {
-      return val.length > 1
-        ? val.map((item) => new Date(item))
-        : [new Date(), new Date()];
-    }
-    return val ? new Array(new Date(val)) : [new Date()];
-  }
-
-  ok(leaveOpened: any) {
-    const $this = this;
-    $this.$emit('input', $this.get());
-    // eslint-disable-next-line no-unused-expressions
-    !leaveOpened &&
-      !$this.showButtons &&
-      setTimeout(() => {
-        $this.show = $this.range;
-      });
-  }
-
-  tf(
-    time: {
-      getFullYear: () => any;
-      getMonth: () => any;
-      getDate: () => any;
-      getHours: () => any;
-      getMinutes: () => any;
-      getSeconds: () => any;
-      getMilliseconds: () => any;
+  },
+  computed: {
+    range() {
+      return this.dates.length === 2
     },
-    format: undefined
-  ) {
-    const year = time.getFullYear();
-    const month = time.getMonth();
-    const day = time.getDate();
-    const hours24 = time.getHours();
-    const hours = hours24 % 12 === 0 ? 12 : hours24 % 12;
-    const minutes = time.getMinutes();
-    const seconds = time.getSeconds();
-    const milliseconds = time.getMilliseconds();
-    const dd = (t: number) => `0${t}`.slice(-2);
-    const map = {
-      YYYY: year,
-      MM: dd(month + 1),
-      MMM: this.local.months[month],
-      MMMM: this.local.monthsHead[month],
-      M: month + 1,
-      DD: dd(day),
-      D: day,
-      HH: dd(hours24),
-      H: hours24,
-      hh: dd(hours),
-      h: hours,
-      mm: dd(minutes),
-      m: minutes,
-      ss: dd(seconds),
-      s: seconds,
-      S: milliseconds,
-    };
-    return (format || this.format).replace(
-      /Y+|M+|D+|H+|h+|m+|s+|S+/g,
-      (str: string | number) => map[str]
-    );
-  }
+    text() {
+      const val = this.value
+      const txt = this.dates.map((date: any) => this.tf(date)).join(` ${this.rangeSeparator} `)
+      if (Array.isArray(val)) {
+        return val.length > 1 ? txt : ''
+      }
+      return val ? txt : ''
 
-  dc(e: { target: any }) {
-    this.show = this.$el.contains(e.target) && !this.disabled;
-  }
+    }
+  },
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    value(val) {
+      this.dates = this.vi(this.value)
+    }
+  },
+  methods: {
+    get() {
+      return Array.isArray(this.value) ? this.dates : this.dates[0]
+    },
+    cls() {
+      this.$emit('clear')
+      this.$emit('input', this.range ? [] : '')
+    },
+    vi(val: string | number | any[] | Date) {
+      if (Array.isArray(val)) {
+        return val.length > 1 ? val.map(item => new Date(item)) : [new Date(), new Date()]
+      }
+      return val ? new Array(new Date(val)) : [new Date()]
 
-  submit() {
-    this.$emit('confirm', this.get());
-    this.show = false;
-  }
-
-  cancel() {
-    this.$emit('cancel');
-    this.show = false;
-  }
-
+    },
+    ok(leaveOpened: any) {
+      const $this = this
+      $this.$emit('input', $this.get())
+      // eslint-disable-next-line no-unused-expressions
+      !leaveOpened && !$this.showButtons && setTimeout(() => {
+        $this.show = $this.range
+      })
+    },
+     tf(time: { getFullYear: () => any; getMonth: () => any; getDate: () => any; getHours: () => any; getMinutes: () => any; getSeconds: () => any; getMilliseconds: () => any }, format: undefined) {
+      const year = time.getFullYear()
+      const month = time.getMonth()
+      const day = time.getDate()
+      const hours24 = time.getHours()
+      const hours = hours24 % 12 === 0 ? 12 : hours24 % 12
+      const minutes = time.getMinutes()
+      const seconds = time.getSeconds()
+      const milliseconds = time.getMilliseconds()
+      const dd = (t: number) => (`0${t}`).slice(-2)
+      const map = {
+        YYYY: year,
+        MM: dd(month + 1),
+        MMM: this.local.months[month],
+        MMMM: this.local.monthsHead[month],
+        M: month + 1,
+        DD: dd(day),
+        D: day,
+        HH: dd(hours24),
+        H: hours24,
+        hh: dd(hours),
+        h: hours,
+        mm: dd(minutes),
+        m: minutes,
+        ss: dd(seconds),
+        s: seconds,
+        S: milliseconds
+      }
+      return (format || this.format).replace(/Y+|M+|D+|H+|h+|m+|s+|S+/g, (str: string | number) => map[str])
+    },
+    dc(e: { target: any }) {
+      this.show = this.$el.contains(e.target) && !this.disabled
+    },
+    submit() {
+      this.$emit('confirm', this.get())
+      this.show = false
+    },
+    cancel() {
+      this.$emit('cancel')
+      this.show = false
+    }
+  },
   mounted() {
-    document.addEventListener('click', this.dc, true);
+    document.addEventListener('click', this.dc, true)
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.dc, true)
   }
 }
 </script>

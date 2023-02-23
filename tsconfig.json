@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+"experimentalDecorators": true,
     // 指定es的目标版本
     "target": "esnext",
     "useDefineForClassFields": true,
