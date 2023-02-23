@@ -23,20 +23,6 @@ const props = defineProps({
   group: Boolean,
   clearable: Boolean,
   disabled: Boolean,
-  placement: {
-    type: String,
-    // validator(value) {
-    //   return oneOf(value, [
-    //     'left-bottom', //常规位置,控件位置在左侧,下方左对⻬
-    //     'right-bottom', //当控件位置在浏览器右侧,且内容宽度被浏览器遮挡。下方右对⻬
-    //     'left-top', //当控件位置在左下⻆,并且内容易被遮挡,上方左对⻬
-    //     'right-top', //当控件位置在右下⻆,并且内容易被遮挡,上方右对⻬
-    //     'left-aside', //当下拉菜单过高,且上下位置不可展示,可侧边展开菜单
-    //     'right-aside',
-    //   ]);
-    // },
-    default: 'left-bottom',
-  },
   type: {
     type: String,
     // validator(value) {
@@ -73,7 +59,7 @@ const firstLevel = ref('');
 const secondLevel = ref('');
 const thirdLevel = ref('');
 const levelSelected = ref([]);
-
+const isdisabled = ref(false);
 const toggle = (level: number) => {
   if (props.disabled) return;
 
@@ -105,9 +91,21 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
     levelSelected.value.push(index);
     secondLevel.value = text;
     thirdLevel.value = '';
+    if (
+      !levelList.value[levelSelected.value[0]].children[index].children ||
+      levelList.value[levelSelected.value[0]].children[index].children
+        .length === 0
+    ) {
+      thirdLevel.value = '';
+      levelSelected.value.splice(2, 1);
+    }
     showFirst.value = false;
     showSecond.value = false;
-    showThird.value = true;
+    showThird.value =
+      levelList.value[levelSelected.value[0]].children[index].children &&
+      levelList.value[levelSelected.value[0]].children[index].children.length >
+        0;
+      isdisabled.value = showThird.value === false ;  
   } else {
     levelSelected.value = [levelSelected.value[0], levelSelected.value[1]];
     levelSelected.value.push(index);
@@ -205,7 +203,7 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
           </div>
         </div>
       </div>
-      <div class="thirdlevel-wrapper">
+      <div class="thirdlevel-wrapper" :class="isdisabled ? `disabled` : ''">
         <div class="dropinput">
           <div
             class="dropinput--input-box"
@@ -249,26 +247,12 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
             <span v-text="item.text"></span>
           </div>
         </div>
-
-        <div
-          v-else-if="
-            showThird &&
-            levelList[levelSelected[0]].children[levelSelected[1]].children
-              .length === 0
-          "
-          class="--optionlist"
-          v-text="'无第三级元素'"
-          @show="thirdLevel = 'no children!'"
-          style="cursor: not-allowed; color: #999"
-        ></div>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
 @import '../../styles/index';
-
-// @include cascader-wrapper;
 @include dropselect-wrapper;
 .common-wrapper {
   display: flex;
@@ -278,7 +262,6 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
   .thirdlevel-wrapper {
     display: flex;
     flex-direction: column;
-
     .--optionlist {
       height: fit-content;
     }

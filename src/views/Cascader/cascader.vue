@@ -91,6 +91,7 @@ const handleLevelSelect = (level: number, index: number, text: string) => {
   if (level === 0) {
     levelSelected.value = [];
     levelSelected.value.push(index);
+    tmp=[]
     tmp.push(text);
   } else if (level === 1) {
     levelSelected.value = [levelSelected.value[0]];
