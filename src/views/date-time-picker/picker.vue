@@ -42,7 +42,6 @@
     </div>
     <!--      时间-->
     <div class="time_box date_box" v-show="type == 1">
-      // eslint-disable-next-line vue/no-unused-vars
       <template v-for="(dateValue, key, index) in pickerData.time">
         <div
           class="date_time_item"
@@ -70,7 +69,6 @@
     </div>
   </div>
 </template>
-
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineProps, watch } from 'vue';
 
@@ -140,8 +138,7 @@ const backYearOrDay = (val: number, year: number) => {
 const isStop = (val: boolean, key: string) => {
   stop.value = val;
   if (!stop.value && refScrollTarget) {
-    setTimeout(() => {
-      // eslint-disable-next-line no-use-before-define
+    setTimeout(() => {      
       scrolle(refScrollTarget, key);
     });
   }
@@ -175,18 +172,12 @@ const scrolle = (event: any, key: string) => {
           event.target.scrollTop - scollValue + itemHeight;
       }
       const val = Math.round(event.target.scrollTop / itemHeight) || 0;
-      // eslint-disable-next-line no-use-before-define
       setDateTime(key, val.toString());
     }, 50);
   });
 };
 // 过滤器
-const formatTime = (val: number | string) => {
-  if (val < 10) {
-    return `0${val}`;
-  }
-  return `${val}`;
-};
+const formatTime = (val: number | string) => val < 10 ? `0${val}` : `${val}` 
 // 设置时间
 const setDateTime = (key: string, val: string) => {
   const newTimeData = DateTime.value.split('');
@@ -199,7 +190,6 @@ const setDateTime = (key: string, val: string) => {
       newTimeData.splice(5, 2, ...formatTime(Number(val) + 1).split(''));
       pickerData.date.day.data = [];
       //  月份改变日期改变
-
       for (
         let i = 1;
         i <= backYearOrDay(Number(newTimeData[1]), Number(newTimeData[0]));
@@ -215,17 +205,14 @@ const setDateTime = (key: string, val: string) => {
       DateTime.value = newTimeData.join('');
       break;
     case 'hour':
-      // newTimeData[3] = (Number(val)).toString()
       newTimeData.splice(11, 2, ...formatTime(Number(val)).split(''));
       DateTime.value = newTimeData.join('');
       break;
     case 'minute':
-      // newTimeData[4] = (Number(val)).toString()
       newTimeData.splice(14, 2, ...formatTime(Number(val)).split(''));
       DateTime.value = newTimeData.join('');
       break;
     case 'second':
-      // newTimeData[5] = (Number(val)).toString()
       newTimeData.splice(17, 2, ...formatTime(Number(val)).split(''));
       DateTime.value = newTimeData.join('');
       break;
@@ -234,61 +221,33 @@ const setDateTime = (key: string, val: string) => {
   }
 };
 // 返回时间
-const backTime = () => {
-  emit('update:modelValue', DateTime.value);
-};
+const backTime = () => {emit('update:modelValue', DateTime.value);};
 // 返回类名
 const className = (key: string, value: number | string) => {
-  // const newTimeData = DateTime.value.split('-')
   switch (key) {
     case 'year':
-      return DateTime.value.slice(0, 4) === value.toString()
-        ? 'active_time'
-        : '';
+      return DateTime.value.slice(0, 4) === value.toString()  ? 'active_time'  : '';
     case 'month':
-      return DateTime.value.slice(5, 7) === value.toString()
-        ? 'active_time'
-        : '';
+      return DateTime.value.slice(5, 7) === value.toString()  ? 'active_time'  : '';
     case 'day':
-      return DateTime.value.slice(8, 10) === value.toString()
-        ? 'active_time'
-        : '';
+      return DateTime.value.slice(8, 10) === value.toString() ? 'active_time' : '';
     case 'hour':
-      return DateTime.value.slice(11, 13) === value.toString()
-        ? 'active_time'
-        : '';
+      return DateTime.value.slice(11, 13) === value.toString() ? 'active_time'  : '';
     case 'minute':
-      return DateTime.value.slice(14, 16) === value.toString()
-        ? 'active_time'
-        : '';
+      return DateTime.value.slice(14, 16) === value.toString() ? 'active_time'  : '';
     case 'second':
-      return DateTime.value.slice(17, 19) === value.toString()
-        ? 'active_time'
-        : '';
+      return DateTime.value.slice(17, 19) === value.toString() ? 'active_time'  : '';
     default:
-      return null;
-  }
-};
+      return null;}};
 // 数据初始化
 const init = () => {
-  // eslint-disable-next-line no-unused-vars
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
-  // eslint-disable-next-line no-unused-vars
   const day = new Date().getDate();
-  // eslint-disable-next-line no-unused-vars
   const hour = new Date().getHours();
-  // eslint-disable-next-line no-unused-vars
   const minute = new Date().getMinutes();
-  // eslint-disable-next-line no-unused-vars
   const second = new Date().getSeconds();
   const time = DateTime.value.split('-');
-  // time[0] = year.toString()
-  // time[1] = month.toString()
-  // time[2] = day.toString()
-  // time[3] = hour.toString()
-  // time[4] = minute.toString()
-  // time[5] = second.toString()
   for (let i = 1980; i < 2100; i += 1) {
     pickerData.date.year.data.push(i);
   }
@@ -325,25 +284,15 @@ const timeChanged = () => {
   ((document.getElementById('second') as any).scrollTop as any) =
     Number(DateTime.value.slice(17, 19)) * 50;
 };
-onMounted(() => {
-  timeChanged();
-});
-watch(
-  () => props.modelValue,
-  // eslint-disable-next-line no-unused-vars
-  (newValue, oldValue) => {
-    timeChanged();
-  }
-);
+onMounted(() => {timeChanged();});
+watch(() => props.modelValue,(newValue, oldValue) => {timeChanged();});
 init();
 </script>
-
 <script lang="ts">
 export default {
   name: 'DateTimePicker',
 };
 </script>
-
 <style lang="scss" scoped>
 @import '../../styles/index';
 @include date-time-picker-wrapper;
