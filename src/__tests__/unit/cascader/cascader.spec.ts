@@ -23,7 +23,7 @@ describe('Cascader', () => {
     expect(arrowDown.exists()).toBe(true);
 
     const optionList = wrapper.find('.--optionlist');
-    expect(optionList.exists()).toBe(true);
+    expect(optionList.exists()).toBe(false); // 在未点击前下拉菜单不渲染
 
     wrapper.unmount();
   });
