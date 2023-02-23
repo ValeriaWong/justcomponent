@@ -2,7 +2,7 @@
   <!--使用 router-link 组件进行导航 -->
   <!--通过传递 `to` 来指定链接 -->
   <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
-    <Space wrap>
+  <Space wrap>
     <div class="btn-wrapper">
       <div class="btn-able-wrapper" v-if="type == 'btnAble'">
         <div>
@@ -15,11 +15,10 @@
         </div>
       </div>
       <div class="btn-disable-wrapper" v-if="type == 'btnDisable'">
-      
-          <JustButton disabled>默认按钮</JustButton>
-          <JustButton type="primary" disabled>主要按钮</JustButton>
-          <JustButton type="secondary" disabled>次级按钮</JustButton>
-          <JustButton type="revert" disabled>回退按钮</JustButton>  
+        <JustButton disabled>默认按钮</JustButton>
+        <JustButton type="primary" disabled>主要按钮</JustButton>
+        <JustButton type="secondary" disabled>次级按钮</JustButton>
+        <JustButton type="revert" disabled>回退按钮</JustButton>
       </div>
       <div v-if="type == 'btnIcon'">
         <JustButton type="icon"></JustButton>
@@ -166,8 +165,7 @@
       <JustDatetimePicker></JustDatetimePicker>
     </div>
   </Space>
-    <div id="app" class="container">
-    
+  <div id="app" class="container">
     <div class="container-nav">
       <span>通用型组件</span>
       <br />
@@ -194,8 +192,6 @@
       <router-view></router-view>
     </div>
   </div>
-
-
 </template>
 
 <style lang="scss" scoped>

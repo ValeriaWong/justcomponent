@@ -1,5 +1,5 @@
 <template>
-<space wrap>
+  <space wrap>
     <div class="avatar-wrapper">
       <div class="avatar_test">
         <div class="c1">
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-</space>
+  </space>
 </template>
 <script lang="ts" setup>
 import JustAvatar from '../views/avatar/avatar.vue';

@@ -61,7 +61,7 @@
 import DatePickerCalendar from './datePickerCalendar.vue'
 
 export default {
-  name: 'Datepicker',
+  name: 'JustDateTimePicker',
   // eslint-disable-next-line vue/no-unused-components
   components: { DatePickerCalendar },
   props: {
